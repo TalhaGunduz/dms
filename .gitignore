@@ -1,0 +1,32 @@
+# Laravel & Composer
+/vendor
+/.env
+/.phpunit.result.cache
+/public/hot
+/storage/*.key
+/storage/app/*
+/node_modules
+/.vscode
+/.idea
+/.DS_Store
+Thumbs.db
+
+# Laravel Framework specific
+/public/storage
+/storage/app/public
+/.composer
+/.env.local
+/.env.*.local
+/.env.testing
+
+# npm
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# MacOS
+.DS_Store
+
+# IDEs and Editors
+/.vscode
+/.idea
