@@ -8,10 +8,13 @@ use Laravolt\Avatar\Facade as Avatar;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRequest;
 use App\Models\Student;
+use App\Models\Room;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Yajra\DataTables\Facades\DataTables;
+
 
 class IndexController extends Controller
 {
@@ -37,11 +40,13 @@ class IndexController extends Controller
 
     public function create()
     {
-        $button_link = route('admin.' . $this->model . '.index');
+        $rooms = Room::all();  // Tüm odaları alıyoruz
+        return view('admin.student.create', compact('rooms'));
         return view('admin.' . $this->model . '.create', [
             'model' => $this->model,
             'model_text' => $this->model_text,
             'button_link' => $button_link,
+            
         ]);
     }
 
@@ -122,6 +127,7 @@ class IndexController extends Controller
     {
         // Öğrenciyi ID'sine göre bul
         $student = Student::findOrFail($id); 
+        $student = Student::with('room')->findOrFail($id);
     
         // Model text'i belirleyelim
         $model_text = 'Öğrenci Detayları';  // Bu değeri değiştirebilirsiniz

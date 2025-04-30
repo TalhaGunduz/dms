@@ -149,14 +149,23 @@
                         </div>
                         <!--end::Input group-->
 
-                        <!--begin::Input group-->
-                        <div class="fv-row mb-10">
-                            <!--begin::Label-->
-                            <label class="fs-6 fw-semibold form-label mb-2">Oda ID:</label>
-                            <!--end::Label-->
-                            <input type="text" name="room_id" value="{{ old('room_id') }}" id="room_id" class="form-control">
-                        </div>
-                        <!--end::Input group-->
+                       <!--begin::Input group-->
+<div class="fv-row mb-10">
+    <!--begin::Label-->
+    <label class="fs-6 fw-semibold form-label mb-2">Oda Seç:</label>
+    <!--end::Label-->
+    <select name="room_id" class="form-control" id="room_id">
+        <option value="">Oda Seçiniz</option>  <!-- Varsayılan olarak boş bırakıyoruz -->
+        @foreach($rooms as $room)
+            <option value="{{ $room->id }}" {{ old('room_id') == $room->id ? 'selected' : '' }}>
+                Oda No: {{ $room->number }} ({{ $room->block }} - Kapasite: {{ $room->capacity }})
+            </option>
+        @endforeach
+    </select>
+</div>
+<!--end::Input group-->
+
+                        
 
                         <!--begin::Actions-->
                         <div class="text-center">

@@ -87,8 +87,12 @@
                 <td>{{ $student->phone }}</td>
             </tr>
             <tr>
-                <td>Oda</td>
-                <td>{{ $student->room_id ? $student->room->name : 'Bilinmiyor' }}</td>
+                <td>Blok</td>
+                <td>{{ $student->room->block }}</td>
+            </tr>
+            <tr>
+                <td>Oda No</td>
+                <td>{{ $student->room->number }}</td>
             </tr>
             <tr>
                 <td>Şifre</td>
