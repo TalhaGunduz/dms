@@ -12,9 +12,9 @@ class UserSeeder extends Seeder
     {
         // Yeni bir kullanıcı oluştur
         User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password123'), // Şifreyi bcrypt ile hash'le
+            'name' => 'Admin',
+            'email' => 'admin@admin',
+            'password' => Hash::make('123'), // Şifreyi bcrypt ile hash'le
             'status' => '1', // Status alanını ekleyin
         ]);
     }

@@ -4,27 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
-            $table->string('number'); // Oda numarası
-            $table->unsignedInteger('capacity');
-            $table->unsignedInteger('current_students')->default(0);
-            $table->string('block')->nullable(); // Blok adı vs.
+            $table->foreignId('block_id')->constrained('blocks')->onDelete('cascade');
+            $table->string('number'); // oda numarası
+            $table->unsignedInteger('capacity')->default(5); // varsayılan kapasite 5
+            $table->unsignedInteger('current_students')->default(0); // mevcut öğrenci sayısı
             $table->timestamps();
         });
-        
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('rooms');

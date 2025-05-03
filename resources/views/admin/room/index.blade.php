@@ -258,12 +258,12 @@
                     <table class="table align-middle table-row-dashed fs-6 gy-5" id="table">
                         <thead>
                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                <th class="w-50px">id</th>
-                                <th class="w-50px">img</th>
-                                <th class="w-225px">ad ve soyad</th>
-                                <th class="w-150px">email</th>
-                                <th class="w-100px">durumu</th>
-                                <th class="text-center w-200px">İşlemler</th>
+                                <th class="w-50px">#</th>
+                                <th class="min-w-125px">Oda Numarası</th>
+                                <th class="min-w-100px">Kapasite</th>
+                                <th class="min-w-125px">Şu Anki Öğrenci</th>
+                                <th class="min-w-100px">Blok</th>
+                                <th class="text-end min-w-150px">İşlemler</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 fw-semibold">

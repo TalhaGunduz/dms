@@ -13,11 +13,18 @@ class Room extends Model
         'number',
         'capacity',
         'current_students',
-        'block',
+        'block_id',
     ];
 
     public function students()
     {
         return $this->hasMany(Student::class);
     }
+
+    // app/Models/Room.php
+public function block()
+{
+    return $this->belongsTo(Block::class);
+}
+
 }

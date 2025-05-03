@@ -22,14 +22,15 @@ class RoomRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'number' => 'required|string',
-            'capacity' => 'required|integer|max:5', // Kapasiteyi 5 ile sınırlıyoruz
-            'block' => 'nullable|string', // Blok alanı opsiyonel
+            'number' => 'required|string', // Oda numarasının gerekli ve string olması
+            'capacity' => 'required|integer|min:1|max:5', // Kapasite en az 1, en fazla 5 olmalı
+            'block_id' => 'required|exists:blocks,id', // Blok id'si geçerli bir blok olmalı
         ];
     }
+    
 
     /**
      * Doğrulama başarısız olduğunda geri gönderilecek hata mesajları.
@@ -41,8 +42,10 @@ class RoomRequest extends FormRequest
         return [
             'number.required' => 'Oda numarası gereklidir.',
             'capacity.required' => 'Kapasite gereklidir.',
+            'capacity.min' => 'Kapasite en az 1 olmalıdır.',
             'capacity.max' => 'Kapasite en fazla 5 olabilir.',
-            'block.nullable' => 'Blok alanı isteğe bağlıdır.',
+            'block_id.required' => 'Blok alanı gereklidir.',
+            'block_id.exists' => 'Seçilen blok geçersiz.',
         ];
     }
 }

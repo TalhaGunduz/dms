@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Room;
 
 use Alert;
 use App\Http\Controllers\Controller;
+use App\Models\Block;
 use App\Models\Room;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -33,34 +34,43 @@ class IndexController extends Controller
             'button_link' => $button_link,
         ]);
     }
-
     public function create()
     {
+        // Blokları veritabanından alıyoruz
+        $blocks = Block::all();
+        
+        // Diğer veriler ve linkler
         $button_link = route('admin.' . $this->model . '.index');
+        
+        // Verileri view'e gönderiyoruz
         return view('admin.' . $this->model . '.create', [
             'model' => $this->model,
             'model_text' => $this->model_text,
             'button_link' => $button_link,
+            'blocks' => $blocks, // blocks değişkenini ekliyoruz
         ]);
     }
+    
 
     public function store(RoomRequest $request)
-    {
-        // RoomRequest, verilerin doğrulamasını yapacak
-        $validated = $request->validated();
+{
+    // RoomRequest, verilerin doğrulamasını yapacak
+    $validated = $request->validated();
 
-        // Oda kaydını oluştur
-        $create = Room::create([
-            'number' => $validated['number'],
-            'capacity' => $validated['capacity'],
-            'block' => $validated['block'], // Eğer blok null gelirse, RoomRequest bunu işleme alacak
-        ]);
+    // Oda kaydını oluştur
+    $room = Room::create([
+        'number' => $validated['number'],
+        'capacity' => $validated['capacity'],
+        'block_id' => $validated['block_id'], // Doğru key bu!
+    ]);
 
-        toast($this->model_text . " başarıyla eklendi", 'success');
-        if ($create) {
-            return redirect()->route('admin.' . $this->model . '.index');
-        }
-    }
+    // Başarı mesajı
+    toast($this->model_text . " başarıyla eklendi", 'success');
+
+    // Başarılı ise index sayfasına yönlendir
+    return redirect()->route('admin.' . $this->model . '.index');
+}
+
 
     public function destroy(Request $request, $id)
     {
@@ -117,8 +127,9 @@ class IndexController extends Controller
                 return $item->current_students . ' / ' . $item->capacity; // Mevcut öğrenci sayısı
             })
             ->editColumn('block', function ($item) {
-                return $item->block ?? 'Bilinmiyor'; // Blok adı
+                return $item->block ? $item->block->name . ' Blok ' . $item->block->information : 'Bilinmiyor';
             })
+            
             ->editColumn('action', function ($item) {
                 return view('admin.' . $this->model . '.component.table-button', ['item' => $item, 'model' => $this->model]);
             })
