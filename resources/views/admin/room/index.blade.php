@@ -11,13 +11,14 @@
             <!--begin::Page title-->
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <!--begin::Title-->
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ $model_text }} Listesi</h1>
+                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                    Oda Yönetimi</h1>
                 <!--end::Title-->
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
-                        <a href="../../demo1/dist/index.html" class="text-muted text-hover-primary">Home</a>
+                        <a href="{{ route('admin.index') }}" class="text-muted text-hover-primary">Anasayfa</a>
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
@@ -26,15 +27,7 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">{{ $model_text }} Yönetimi</li>
-                    <!--end::Item-->
-                    <!--begin::Item-->
-                    <li class="breadcrumb-item">
-                        <span class="bullet bg-gray-400 w-5px h-2px"></span>
-                    </li>
-                    <!--end::Item-->
-                    <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">Users</li>
+                    <li class="breadcrumb-item text-muted">Oda Yönetimi</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -47,7 +40,7 @@
                 <!--begin::Secondary button-->
                 <!--end::Secondary button-->
                 <!--begin::Primary button-->
-                <a href="{{ $button_link }}" class="btn btn-sm fw-bold btn-primary" >{{ $model_text}} Yeni Ekle</a>
+                <a href="{{ route('admin.room.create') }}" class="btn btn-sm fw-bold btn-primary">Yeni Oda Ekle</a>
                 <!--end::Primary button-->
             </div>
             <!--end::Actions-->
@@ -254,23 +247,53 @@
                 <!--end::Card header-->
                 <!--begin::Card body-->
                 <div class="card-body py-4">
-                    <!--begin::Table-->
-                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="table">
-                        <thead>
-                            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                <th class="w-50px">#</th>
-                                <th class="min-w-125px">Oda Numarası</th>
-                                <th class="min-w-100px">Kapasite</th>
-                                <th class="min-w-125px">Şu Anki Öğrenci</th>
-                                <th class="min-w-100px">Blok</th>
-                                <th class="text-end min-w-150px">İşlemler</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-600 fw-semibold">
-    
-                        </tbody>
-                    </table>
-                    <!--end::Table-->
+                    <!--begin::Table container-->
+                    <div class="table-responsive">
+                        <!--begin::Table-->
+                        <table class="table align-middle table-row-dashed gy-5">
+                            <thead>
+                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th>Blok</th>
+                                    <th>Oda No</th>
+                                    <th>Kapasite</th>
+                                    <th>Dolu Kapasite</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody class="fw-semibold text-gray-600">
+                                @foreach($blocks as $block)
+                                    @foreach($block->rooms as $room)
+                                        <tr>
+                                            <td>
+                                                <span class="badge badge-light-primary fs-6 px-4 py-2">{{ $block->name }} Blok</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-light-info fs-6 px-4 py-2">{{ $room->number }} Numaralı Oda</span>
+                                            </td>
+                                            <td>{{ $room->capacity }}</td>
+                                            <td>{{ $room->current_students }}</td>
+                                            <td>
+                                                <a href="{{ route('admin.room.edit', $room->id) }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                                    <i class="ki-duotone ki-pencil fs-2">
+                                                        <span class="path1"></span>
+                                                        <span class="path2"></span>
+                                                    </i>
+                                                </a>
+                                                <a href="{{ route('admin.room.destroy', $room->id) }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" onclick="return confirm('Bu odayı silmek istediğinizden emin misiniz?')">
+                                                    <i class="ki-duotone ki-trash fs-2">
+                                                        <span class="path1"></span>
+                                                        <span class="path2"></span>
+                                                    </i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <!--end::Table-->
+                    </div>
+                    <!--end::Table container-->
                 </div>
                 <!--end::Card body-->
             </div>

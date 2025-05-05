@@ -17,7 +17,14 @@ class Student extends Model
         'school',
         'department',
         'phone',
+        'email',
+        'status',
+        'password',
         'room_id', // eğer oda ataması yapılacaksa
+    ];
+
+    protected $hidden = [
+        'password',
     ];
 
     // Eğer oda ilişkisi varsa:

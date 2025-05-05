@@ -145,27 +145,36 @@
                             <!--begin::Label-->
                             <label class="required fs-6 fw-semibold form-label mb-2">Şifre:</label>
                             <!--end::Label-->
-                            <input type="password" name="password" value="{{ old('password') }}" id="password" class="form-control" required>
+                            <input type="password" name="password" id="password" class="form-control" required>
                         </div>
                         <!--end::Input group-->
 
-                       <!--begin::Input group-->
-<div class="fv-row mb-10">
-    <!--begin::Label-->
-    <label class="fs-6 fw-semibold form-label mb-2">Oda Seç:</label>
-    <!--end::Label-->
-    <select name="room_id" class="form-control" id="room_id">
-        <option value="">Oda Seçiniz</option>  <!-- Varsayılan olarak boş bırakıyoruz -->
-        @foreach($rooms as $room)
-            <option value="{{ $room->id }}" {{ old('room_id') == $room->id ? 'selected' : '' }}>
-                Oda No: {{ $room->number }} ({{ $room->block }} - Kapasite: {{ $room->capacity }})
-            </option>
-        @endforeach
-    </select>
-</div>
-<!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-10">
+                            <!--begin::Label-->
+                            <label class="fs-6 fw-semibold form-label mb-2">Blok Seç:</label>
+                            <!--end::Label-->
+                            <select name="block_id" id="block_id" class="form-control" onchange="loadRooms()">
+                                <option value="">Blok Seçiniz</option>
+                                @foreach ($blocks as $block)
+                                    <option value="{{ $block->id }}" {{ old('block_id') == $block->id ? 'selected' : '' }}>
+                                        {{ $block->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <!--end::Input group-->
 
-                        
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-10">
+                            <!--begin::Label-->
+                            <label class="fs-6 fw-semibold form-label mb-2">Oda Seç:</label>
+                            <!--end::Label-->
+                            <select name="room_id" id="room_id" class="form-control" disabled>
+                                <option value="">Önce Blok Seçiniz</option>
+                            </select>
+                        </div>
+                        <!--end::Input group-->
 
                         <!--begin::Actions-->
                         <div class="text-center">
@@ -195,5 +204,47 @@
             }
         });
     });
+
+    // Oda seçeneklerini yükleme
+    function loadRooms() {
+        const blockId = document.getElementById('block_id').value;
+        const roomSelect = document.getElementById('room_id');
+        
+        if (!blockId) {
+            roomSelect.innerHTML = '<option value="">Önce Blok Seçiniz</option>';
+            roomSelect.disabled = true;
+            return;
+        }
+
+        // Yükleniyor mesajı göster
+        roomSelect.innerHTML = '<option value="">Yükleniyor...</option>';
+        roomSelect.disabled = true;
+
+        // AJAX ile odaları getir
+        $.ajax({
+            url: '/admin/room/get-rooms/' + blockId,
+            type: 'GET',
+            success: function(rooms) {
+                roomSelect.innerHTML = '<option value="">Oda Seçiniz</option>';
+                
+                rooms.forEach(function(room) {
+                    const availableCapacity = room.capacity - room.current_students;
+                    if (availableCapacity > 0) {
+                        roomSelect.innerHTML += `
+                            <option value="${room.id}">
+                                Oda ${room.number} (Kalan Kapasite: ${availableCapacity})
+                            </option>
+                        `;
+                    }
+                });
+                
+                roomSelect.disabled = false;
+            },
+            error: function() {
+                roomSelect.innerHTML = '<option value="">Hata oluştu</option>';
+                roomSelect.disabled = true;
+            }
+        });
+    }
 </script>
 @endsection

@@ -13,16 +13,40 @@
             <!--begin::Page title-->
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <!--begin::Title-->
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{ $model_text }} Listesi - {{ $student->name }}</h1>
+                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                    Öğrenci Detayları</h1>
                 <!--end::Title-->
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                    
-                    <li class="breadcrumb-item text-muted">{{ $model_text }} Yönetimi</li>
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">
+                        <a href="{{ route('admin.index') }}" class="text-muted text-hover-primary">Anasayfa</a>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">Öğrenci Yönetimi</li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <li class="breadcrumb-item text-muted">Öğrenci Detayları</li>
+                    <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
             </div>
             <!--end::Page title-->
+            <!--begin::Actions-->
+            <div class="d-flex align-items-center gap-2 gap-lg-3">
+                <a href="{{ route('admin.student.index') }}" class="btn btn-sm fw-bold btn-primary">Öğrenci Listesine Dön</a>
+            </div>
+            <!--end::Actions-->
         </div>
         <!--end::Toolbar container-->
     </div>
@@ -37,73 +61,84 @@
                 <!--begin::Card header-->
                 <div class="card-header border-0 pt-6">
                     <div class="card-title">
-                        <h5>Öğrenci Bilgileri - {{ $student->name }} {{ $student->surname }}</h5>
+                        <h2 class="fw-bold">{{ $student->name }} {{ $student->surname }}</h2>
                     </div>
                 </div>
                 <!--end::Card header-->
                 
                 <!--begin::Card body-->
-               <!--begin::Card body-->
-<!--begin::Card body-->
-<div class="card-body py-4">
-    <table id="studentInfo" class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Alan</th>
-                <th>Değer</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Adı</td>
-                <td>{{ $student->name }}</td>
-            </tr>
-            <tr>
-                <td>Soyadı</td>
-                <td>{{ $student->surname }}</td>
-            </tr>
-            <tr>
-                <td>TC No</td>
-                <td>{{ $student->tc_no }}</td>
-            </tr>
-            <tr>
-                <td>E-posta</td>
-                <td>{{ $student->email }}</td>
-            </tr>
-            <tr>
-                <td>Doğum Tarihi</td>
-                <td>{{ \Carbon\Carbon::parse($student->birth_date)->format('d/m/Y') }}</td>
-            </tr>
-            <tr>
-                <td>Okul</td>
-                <td>{{ $student->school }}</td>
-            </tr>
-            <tr>
-                <td>Bölüm</td>
-                <td>{{ $student->department }}</td>
-            </tr>
-            <tr>
-                <td>Telefon</td>
-                <td>{{ $student->phone }}</td>
-            </tr>
-            <tr>
-                <td>Blok</td>
-                <td>{{ $student->room->block }}</td>
-            </tr>
-            <tr>
-                <td>Oda No</td>
-                <td>{{ $student->room->number }}</td>
-            </tr>
-            <tr>
-                <td>Şifre</td>
-                <td>{{ $student->password }}</td> <!-- Şifreyi direkt olarak göstereceğiz -->
-            </tr>
-        </tbody>
-    </table>
-</div>
-<!--end::Card body-->
-
-
+                <div class="card-body pt-0">
+                    <!--begin::Table wrapper-->
+                    <div class="table-responsive">
+                        <!--begin::Table-->
+                        <table class="table align-middle table-row-dashed gy-5">
+                            <tbody class="fs-6 fw-semibold text-gray-600">
+                                <tr>
+                                    <td class="text-gray-800 fw-bold" style="width: 200px;">TC Kimlik No</td>
+                                    <td>{{ $student->tc_no }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-800 fw-bold">Ad</td>
+                                    <td>{{ $student->name }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-800 fw-bold">Soyad</td>
+                                    <td>{{ $student->surname }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-800 fw-bold">E-posta</td>
+                                    <td>{{ $student->email }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-800 fw-bold">Doğum Tarihi</td>
+                                    <td>{{ \Carbon\Carbon::parse($student->birth_date)->format('d/m/Y') }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-800 fw-bold">Okul</td>
+                                    <td>{{ $student->school }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-800 fw-bold">Bölüm</td>
+                                    <td>{{ $student->department }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-800 fw-bold">Telefon</td>
+                                    <td>{{ $student->phone }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-800 fw-bold">Blok</td>
+                                    <td>
+                                        @if($student->room && $student->room->block)
+                                            <span class="badge badge-light-primary fs-6 px-4 py-2">{{ $student->room->block->name }} Blok</span>
+                                        @else
+                                            <span class="badge badge-light-danger fs-6 px-4 py-2">Atanmamış</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-800 fw-bold">Oda</td>
+                                    <td>
+                                        @if($student->room)
+                                            <span class="badge badge-light-info fs-6 px-4 py-2">{{ $student->room->number }} Numaralı Oda</span>
+                                        @else
+                                            <span class="badge badge-light-danger fs-6 px-4 py-2">Atanmamış</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-gray-800 fw-bold">Durum</td>
+                                    <td>
+                                        <span class="badge badge-light-{{ $student->status == 'active' ? 'success' : 'danger' }} fs-6 px-4 py-2">
+                                            {{ $student->status == 'active' ? 'Aktif' : 'Pasif' }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--end::Table-->
+                    </div>
+                    <!--end::Table wrapper-->
+                </div>
                 <!--end::Card body-->
             </div>
             <!--end::Card-->
@@ -111,8 +146,6 @@
         <!--end::Content container-->
     </div>
     <!--end::Content-->
-
-    <a href="{{ route('admin.student.index') }}" class="btn btn-primary mt-3">Geri Dön</a>
 @endsection
 
 

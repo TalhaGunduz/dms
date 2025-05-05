@@ -11,4 +11,21 @@ class Block extends Model
 
     // Yalnızca bu alanlar için doldurma izni veriyoruz
     protected $fillable = ['name'];
+
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
+
+    public function getTotalRoomsAttribute()
+    {
+        return $this->rooms()->count();
+    }
+
+    public function getAvailableRoomsAttribute()
+    {
+        return $this->rooms()
+            ->whereRaw('capacity > current_students')
+            ->count();
+    }
 }

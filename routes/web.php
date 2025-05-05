@@ -75,7 +75,8 @@ Route::group(['prefix' => 'student', 'as' => 'student.'], function () {
     Route::post('/store', [StudentController::class, 'store'])->name('store');
     Route::post('/user/update-status', [StudentController::class, 'updateUserStatus'])->name('user.updateStatus');
     Route::get('admin/students/data', [StudentController::class, 'getData'])->name('students.getData');
-
+    Route::get('/rooms/by-block/{blockId}', [StudentController::class, 'getRoomsByBlock'])->name('rooms.by-block');
+    
 });
 
 
@@ -87,6 +88,9 @@ Route::group(['prefix' => 'student', 'as' => 'student.'], function () {
         Route::get('/create', [RoomController::class, 'create'])->name('create');
         Route::post('/store', [RoomController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [RoomController::class, 'edit'])->name('edit');
+        // Blok ID'sine göre odaları alacak route
+Route::get('/get-rooms/{blockId}', [RoomController::class, 'getRoomsByBlock']);
+
         Route::post('/update/{id}', [RoomController::class, 'update'])->name('update');
         Route::get('/destroy/{id}', [RoomController::class, 'destroy'])->name('destroy');
     });

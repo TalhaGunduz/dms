@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRequest;
 use App\Models\Student;
 use App\Models\Room;
+use App\Models\Block;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,21 +40,38 @@ class IndexController extends Controller
         ]);
     }
 
-    public function create()
+
+    // app/Http/Controllers/StudentController.php
+
+
+
+    public function create(Request $request)
     {
+        $blocks = Block::all(); // Tüm blokları al
         $rooms = Room::all();  // Tüm odaları alıyoruz
-        return view('admin.student.create', compact('rooms'));
-        return view('admin.' . $this->model . '.create', [
-            'model' => $this->model,
-            'model_text' => $this->model_text,
-            'button_link' => $button_link,
-            
-        ]);
+    
+        // Eğer bir blok seçilmişse, seçilen bloğa ait odaları al
+        if ($request->has('block_id')) {
+            $rooms = Room::where('block_id', $request->input('block_id'))->get();
+        }
+    
+        return view('admin.student.create', compact('rooms', 'blocks'));
     }
+    
+
 
     public function store(StudentRequest $request)
     {
         $all = $request->except('_token');
+
+        // Check room capacity before creating student
+        if (isset($all['room_id'])) {
+            $room = Room::findOrFail($all['room_id']);
+            if ($room->current_students >= $room->capacity) {
+                toast("Seçilen oda dolu. Kapasite: " . $room->capacity . ", Mevcut: " . $room->current_students, 'error');
+                return redirect()->back();
+            }
+        }
 
         // Öğrenci kaydını oluştur
         $create = Student::create([
@@ -63,10 +82,15 @@ class IndexController extends Controller
             'school' => $all['school'],
             'department' => $all['department'],
             'phone' => $all['phone'],
-            'room_id' => $all['room_id'] ?? null, // Oda ID'si opsiyonel olabilir
+            'room_id' => $all['room_id'] ?? null,
             'email' => $all['email'],
             'password' => Hash::make($all['password']),
         ]);
+
+        // Update room capacity if room was assigned
+        if (isset($all['room_id'])) {
+            $room->increment('current_students');
+        }
 
         toast($this->model_text . " başarıyla eklendi", 'success');
         if ($create) {

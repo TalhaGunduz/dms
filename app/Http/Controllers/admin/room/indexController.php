@@ -27,50 +27,37 @@ class IndexController extends Controller
 
     public function index()
     {
-        $button_link = route('admin.' . $this->model . '.create');
-        return view('admin.' . $this->model . '.index', [
+        $blocks = Block::with('rooms')->get();
+        return view('admin.room.index', [
+            'blocks' => $blocks,
             'model' => $this->model,
-            'model_text' => $this->model_text,
-            'button_link' => $button_link,
+            'model_text' => $this->model_text
         ]);
     }
+
     public function create()
     {
-        // Blokları veritabanından alıyoruz
         $blocks = Block::all();
-        
-        // Diğer veriler ve linkler
-        $button_link = route('admin.' . $this->model . '.index');
-        
-        // Verileri view'e gönderiyoruz
-        return view('admin.' . $this->model . '.create', [
+        return view('admin.room.create', [
+            'blocks' => $blocks,
             'model' => $this->model,
-            'model_text' => $this->model_text,
-            'button_link' => $button_link,
-            'blocks' => $blocks, // blocks değişkenini ekliyoruz
+            'model_text' => $this->model_text
         ]);
     }
-    
 
-    public function store(RoomRequest $request)
-{
-    // RoomRequest, verilerin doğrulamasını yapacak
-    $validated = $request->validated();
+    public function store(Request $request)
+    {
+        $request->validate([
+            'block_id' => 'required|exists:blocks,id',
+            'number' => 'required|string',
+            'capacity' => 'required|integer|min:1|max:5'
+        ]);
 
-    // Oda kaydını oluştur
-    $room = Room::create([
-        'number' => $validated['number'],
-        'capacity' => $validated['capacity'],
-        'block_id' => $validated['block_id'], // Doğru key bu!
-    ]);
+        Room::create($request->all());
 
-    // Başarı mesajı
-    toast($this->model_text . " başarıyla eklendi", 'success');
-
-    // Başarılı ise index sayfasına yönlendir
-    return redirect()->route('admin.' . $this->model . '.index');
-}
-
+        return redirect()->route('admin.room.index')
+            ->with('success', 'Oda başarıyla oluşturuldu.');
+    }
 
     public function destroy(Request $request, $id)
     {
@@ -111,6 +98,15 @@ class IndexController extends Controller
         }
     }
 
+    public function getRoomsByBlock($blockId)
+    {
+        $rooms = Room::where('block_id', $blockId)
+            ->select('id', 'number', 'capacity', 'current_students')
+            ->get();
+
+        return response()->json($rooms);
+    }
+
     public function data(Request $request)
     {
         $data = Room::query(); // Odalar için sorgu oluştur
@@ -135,5 +131,15 @@ class IndexController extends Controller
             })
             ->rawColumns(['number', 'capacity', 'current_students', 'block', 'action'])
             ->make(true); // server-side işlemi tamamlıyor
+    }
+
+    public function show($id)
+    {
+        $room = Room::with(['students', 'block'])->findOrFail($id);
+        return view('admin.room.show', [
+            'room' => $room,
+            'model' => $this->model,
+            'model_text' => $this->model_text
+        ]);
     }
 }

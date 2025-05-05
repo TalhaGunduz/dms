@@ -66,58 +66,48 @@
                         @endforeach
                     @endif
 
-                <!--begin::Form-->
-<form class="form" action="{{ route('admin.' . $model . '.store') }}" method="POST">
-    @csrf
-    <!--begin::Input group-->
-    <div class="fv-row mb-10">
-        <!--begin::Label-->
-        <label class="fs-6 fw-semibold form-label mb-2">{{ $model_text }} Numarası:</label>
-        <!--end::Label-->
-        <input type="text" name="number" value="{{ old('number') }}" id="number" class="form-control" required>
-    </div>
-    <!--end::Input group-->
+                   <!--begin::Form-->
+                   <form class="form" action="{{ route('admin.' . $model . '.store') }}" method="POST">
+                        @csrf
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-10">
+                            <!--begin::Label-->
+                            <label class="fs-6 fw-semibold form-label mb-2">{{ $model_text }} Numarası:</label>
+                            <!--end::Label-->
+                            <input type="text" name="number" value="{{ old('number') }}" id="number" class="form-control" required>
+                        </div>
+                        <!--end::Input group-->
 
-    <!--begin::Input group-->
-    <div class="fv-row mb-10">
-        <!--begin::Label-->
-        <label class="required fs-6 fw-semibold form-label mb-2">Kapasite:</label>
-        <!--end::Label-->
-        <input type="number" name="capacity" value="{{ old('capacity') }}" id="capacity" class="form-control" required>
-    </div>
-    <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-10">
+                            <!--begin::Label-->
+                            <label class="required fs-6 fw-semibold form-label mb-2">Kapasite:</label>
+                            <!--end::Label-->
+                            <input type="number" name="capacity" value="{{ old('capacity') }}" id="capacity" class="form-control" required>
+                        </div>
+                        <!--end::Input group-->
 
-    <!--begin::Input group-->
-<div class="fv-row w-100 flex-md-root">
-    <!--begin::Label-->
-    <label class="required form-label">Blok</label>
-    <!--end::Label-->
-    <!--begin::Select2-->
-    <select class="form-select mb-2" name="block_id" id="block_id" data-control="select2"
-        data-hide-search="true" data-placeholder="Lütfen bir blok seçiniz.">
-        <option></option>
-        @foreach ($blocks as $block)
-            <option value="{{ $block->id }}">{{ $block->name }}</option>
-        @endforeach
-    </select>
-    <!--end::Select2-->
-    <!--begin::Description-->
-    <div class="text-muted fs-7">Oda için bir blok seçiniz.</div>
-    <!--end::Description-->
-</div>    
-<!--end::Input group-->
+                        <select name="block_id" id="block_id" class="form-control" required>
+                            @foreach($blocks as $block)
+                                <option value="{{ $block->id }}" {{ old('block_id') == $block->id ? 'selected' : '' }}>
+                                    {{ $block->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        
+                        
 
-    
-    <!--begin::Actions-->
-    <div class="text-center">
-        <button type="submit" class="btn btn-primary">
-            <span class="indicator-label">{{ $model_text }} Yeni Oda Ekle</span>
-        </button>
-    </div>
-    <!--end::Actions-->
-</form>
-<!--end::Form-->
-
+                        <!--begin::Actions-->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="indicator-label">{{ $model_text }} Yeni Oda Ekle</span>
+                            </button>
+                        </div>
+                        <!--end::Actions-->
+                    </form>
+                    <!--end::Form-->
+                </div>
+                <!--end::Card body-->
             </div>
             <!--end::Card-->
         </div>
