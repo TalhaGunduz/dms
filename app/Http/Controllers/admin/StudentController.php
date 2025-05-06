@@ -33,25 +33,34 @@ class StudentController extends Controller
             'room_id' => 'required|exists:rooms,id'
         ]);
 
-        // Oda kapasitesini kontrol et
-        $room = Room::findOrFail($request->room_id);
-        if ($room->current_students >= $room->capacity) {
-            return back()->withErrors(['room_id' => 'Seçilen oda dolu.']);
+        try {
+            \DB::beginTransaction();
+
+            // Oda kapasitesini kontrol et
+            $room = Room::lockForUpdate()->findOrFail($request->room_id);
+            if ($room->current_students >= $room->capacity) {
+                throw new \Exception('Seçilen oda dolu.');
+            }
+
+            // Şifreyi hashle
+            $data = $request->all();
+            $data['password'] = Hash::make($request->password);
+            $data['status'] = 'active';
+
+            // Öğrenciyi kaydet
+            $student = Student::create($data);
+
+            // Oda kapasitesini güncelle
+            $room->increment('current_students');
+
+            \DB::commit();
+
+            return redirect()->route('admin.student.index')
+                ->with('success', 'Öğrenci başarıyla kaydedildi.');
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            return back()->withErrors(['error' => $e->getMessage()]);
         }
-
-        // Şifreyi hashle
-        $data = $request->all();
-        $data['password'] = Hash::make($request->password);
-        $data['status'] = 'active';
-
-        // Öğrenciyi kaydet
-        $student = Student::create($data);
-
-        // Oda kapasitesini güncelle
-        $room->increment('current_students');
-
-        return redirect()->route('admin.student.index')
-            ->with('success', 'Öğrenci başarıyla kaydedildi.');
     }
 
     public function getRoomsByBlock($blockId)

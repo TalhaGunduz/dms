@@ -108,8 +108,8 @@
                                 <tr>
                                     <td class="text-gray-800 fw-bold">Blok</td>
                                     <td>
-                                        @if($student->room && $student->room->block)
-                                            <span class="badge badge-light-primary fs-6 px-4 py-2">{{ $student->room->block->name }} Blok</span>
+                                        @if($student->rooms->isNotEmpty())
+                                            <span class="badge badge-light-primary fs-6 px-4 py-2">{{ $student->rooms->first()->block->name }} Blok</span>
                                         @else
                                             <span class="badge badge-light-danger fs-6 px-4 py-2">Atanmamış</span>
                                         @endif
@@ -118,8 +118,8 @@
                                 <tr>
                                     <td class="text-gray-800 fw-bold">Oda</td>
                                     <td>
-                                        @if($student->room)
-                                            <span class="badge badge-light-info fs-6 px-4 py-2">{{ $student->room->number }} Numaralı Oda</span>
+                                        @if($student->rooms->isNotEmpty())
+                                            <span class="badge badge-light-info fs-6 px-4 py-2">{{ $student->rooms->first()->number }} Numaralı Oda</span>
                                         @else
                                             <span class="badge badge-light-danger fs-6 px-4 py-2">Atanmamış</span>
                                         @endif

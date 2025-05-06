@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Student extends Model
 {
@@ -20,18 +21,20 @@ class Student extends Model
         'email',
         'status',
         'password',
-        'room_id', // eğer oda ataması yapılacaksa
     ];
 
     protected $hidden = [
         'password',
     ];
 
-    // Eğer oda ilişkisi varsa:
-    public function room()
+    public function rooms(): BelongsToMany
     {
-        return $this->belongsTo(Room::class);
+        return $this->belongsToMany(Room::class, 'student_room')
+            ->withTimestamps();
     }
 
-
+    public function getCurrentRoom()
+    {
+        return $this->rooms()->first();
+    }
 }

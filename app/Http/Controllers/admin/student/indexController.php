@@ -10,7 +10,7 @@ use App\Http\Requests\StudentRequest;
 use App\Models\Student;
 use App\Models\Room;
 use App\Models\Block;
-
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,39 +62,45 @@ class IndexController extends Controller
 
     public function store(StudentRequest $request)
     {
-        $all = $request->except('_token');
+        try {
+            DB::beginTransaction();
 
-        // Check room capacity before creating student
-        if (isset($all['room_id'])) {
-            $room = Room::findOrFail($all['room_id']);
-            if ($room->current_students >= $room->capacity) {
-                toast("Seçilen oda dolu. Kapasite: " . $room->capacity . ", Mevcut: " . $room->current_students, 'error');
-                return redirect()->back();
+            $all = $request->except('_token');
+ 
+            // Öğrenci kaydını oluştur
+            $student = Student::create([
+                'tc_no' => $all['tc_no'],
+                'name' => $all['name'],
+                'surname' => $all['surname'],
+                'birth_date' => $all['birth_date'],
+                'school' => $all['school'],
+                'department' => $all['department'],
+                'phone' => $all['phone'],
+                'email' => $all['email'],
+                'password' => Hash::make($all['password']),
+            ]);
+
+            // Eğer oda seçilmişse, student_room tablosuna ekle
+            if (isset($all['room_id']) && $all['room_id']) {
+                $room = Room::findOrFail($all['room_id']);
+                
+                // Oda kapasitesini kontrol et
+                if ($room->isFull()) {
+                    DB::rollBack();
+                    return back()->with('error', 'Seçilen oda dolu!');
+                }
+
+                // Öğrenciyi odaya ata
+                $student->rooms()->attach($all['room_id']);
             }
-        }
 
-        // Öğrenci kaydını oluştur
-        $create = Student::create([
-            'tc_no' => $all['tc_no'],
-            'name' => $all['name'],
-            'surname' => $all['surname'],
-            'birth_date' => $all['birth_date'],
-            'school' => $all['school'],
-            'department' => $all['department'],
-            'phone' => $all['phone'],
-            'room_id' => $all['room_id'] ?? null,
-            'email' => $all['email'],
-            'password' => Hash::make($all['password']),
-        ]);
-
-        // Update room capacity if room was assigned
-        if (isset($all['room_id'])) {
-            $room->increment('current_students');
-        }
-
-        toast($this->model_text . " başarıyla eklendi", 'success');
-        if ($create) {
+            DB::commit();
+            toast($this->model_text . " başarıyla eklendi", 'success');
             return redirect()->route('admin.' . $this->model . '.index');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Öğrenci eklenirken bir hata oluştu: ' . $e->getMessage());
         }
     }
 
@@ -149,12 +155,13 @@ class IndexController extends Controller
 
     public function show($id)
     {
-        // Öğrenciyi ID'sine göre bul
-        $student = Student::findOrFail($id); 
-        $student = Student::with('room')->findOrFail($id);
+        // Öğrenciyi ID'sine göre bul ve ilişkili odaları yükle
+        $student = Student::with(['rooms' => function($query) {
+            $query->with('block');
+        }])->findOrFail($id);
     
         // Model text'i belirleyelim
-        $model_text = 'Öğrenci Detayları';  // Bu değeri değiştirebilirsiniz
+        $model_text = 'Öğrenci Detayları';
     
         // Öğrenciyi ve model_text'i view'e gönderelim
         return view('admin.student.show', compact('student', 'model_text'));

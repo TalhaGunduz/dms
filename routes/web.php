@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\indexController as DashboardController;
 use App\Http\Controllers\Admin\User\indexController as UserController;
 use App\Http\Controllers\Admin\Student\indexController as StudentController;
 use App\Http\Controllers\Admin\Room\indexController as RoomController;
+use App\Http\Controllers\Admin\TransferController;
 
 
 
@@ -86,14 +87,17 @@ Route::group(['prefix' => 'student', 'as' => 'student.'], function () {
         Route::get('/', [RoomController::class, 'index'])->name('index');
         Route::get('/data', [RoomController::class, 'data'])->name('data');
         Route::get('/create', [RoomController::class, 'create'])->name('create');
-        Route::post('/store', [RoomController::class, 'store'])->name('store');
-        Route::get('/edit/{id}', [RoomController::class, 'edit'])->name('edit');
-        // Blok ID'sine göre odaları alacak route
-Route::get('/get-rooms/{blockId}', [RoomController::class, 'getRoomsByBlock']);
-
-        Route::post('/update/{id}', [RoomController::class, 'update'])->name('update');
         Route::get('/destroy/{id}', [RoomController::class, 'destroy'])->name('destroy');
+        Route::get('/edit/{id}', [RoomController::class, 'edit'])->name('edit');
+        Route::get('/show/{id}', [RoomController::class, 'show'])->name('show');
+        Route::post('/update/{id}', [RoomController::class, 'update'])->name('update');
+        Route::post('/store', [RoomController::class, 'store'])->name('store');
+        Route::get('/get-rooms/{blockId}', [RoomController::class, 'getRoomsByBlock'])->name('get-rooms');
     });
+
+    // Transfer routes
+    Route::get('/transfer', [TransferController::class, 'index'])->name('transfer.index');
+    Route::post('/transfer', [TransferController::class, 'transfer'])->name('transfer.process');
 
 });
 

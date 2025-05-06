@@ -252,39 +252,43 @@
                         <!--begin::Table-->
                         <table class="table align-middle table-row-dashed gy-5">
                             <thead>
-                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                                    <th>Blok</th>
-                                    <th>Oda No</th>
-                                    <th>Kapasite</th>
-                                    <th>Dolu Kapasite</th>
-                                    <th>İşlemler</th>
+                                <tr class="text-center text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th class="px-2">Blok</th>
+                                    <th class="px-2">Oda No</th>
+                                    <th class="px-2">Kapasite</th>
+                                    <th class="px-2">İşlemler</th>
                                 </tr>
                             </thead>
                             <tbody class="fw-semibold text-gray-600">
                                 @foreach($blocks as $block)
                                     @foreach($block->rooms as $room)
                                         <tr>
-                                            <td>
+                                            <td class="text-center px-2">
                                                 <span class="badge badge-light-primary fs-6 px-4 py-2">{{ $block->name }} Blok</span>
                                             </td>
-                                            <td>
+                                            <td class="text-center px-2">
                                                 <span class="badge badge-light-info fs-6 px-4 py-2">{{ $room->number }} Numaralı Oda</span>
                                             </td>
-                                            <td>{{ $room->capacity }}</td>
-                                            <td>{{ $room->current_students }}</td>
-                                            <td>
-                                                <a href="{{ route('admin.room.edit', $room->id) }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                                                    <i class="ki-duotone ki-pencil fs-2">
-                                                        <span class="path1"></span>
-                                                        <span class="path2"></span>
-                                                    </i>
-                                                </a>
-                                                <a href="{{ route('admin.room.destroy', $room->id) }}" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" onclick="return confirm('Bu odayı silmek istediğinizden emin misiniz?')">
-                                                    <i class="ki-duotone ki-trash fs-2">
-                                                        <span class="path1"></span>
-                                                        <span class="path2"></span>
-                                                    </i>
-                                                </a>
+                                            <td class="text-center px-2">
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <span class="badge {{ $room->isFull() ? 'badge-light-danger' : 'badge-light-success' }} fs-6 px-4 py-2 mb-1">
+                                                        {{ $room->getAvailableCapacity() }}/{{ $room->capacity }}
+                                                    </span>
+                                                    <div class="progress h-6px w-100px border border-gray-300">
+                                                        <div class="progress-bar {{ $room->isFull() ? 'bg-danger' : 'bg-success' }}" role="progressbar" 
+                                                             style="width: {{ ($room->getAvailableCapacity() / $room->capacity) * 100 }}%"
+                                                             aria-valuenow="{{ ($room->getAvailableCapacity() / $room->capacity) * 100 }}" 
+                                                             aria-valuemin="0" 
+                                                             aria-valuemax="100">
+                                                        </div>
+                                                    </div>
+                                                    <small class="text-muted mt-1">
+                                                        {{ number_format(($room->getAvailableCapacity() / $room->capacity) * 100, 0) }}% Boş
+                                                    </small>
+                                                </div>
+                                            </td>
+                                            <td class="text-center px-2">
+                                                @include('admin.room.component.table-button', ['item' => $room, 'model' => $model])
                                             </td>
                                         </tr>
                                     @endforeach
