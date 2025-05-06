@@ -26,17 +26,21 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">Oda Yönetimi</li>
+                    <li class="breadcrumb-item text-muted">
+                        <a href="{{ route('admin.room.index') }}" class="text-muted text-hover-primary">Oda Yönetimi</a>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <li class="breadcrumb-item text-muted">Oda Detayları</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
             </div>
             <!--end::Page title-->
-            <!--begin::Actions-->
-            <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <a href="{{ route('admin.room.index') }}" class="btn btn-sm fw-bold btn-primary">Oda Listesine Dön</a>
-            </div>
-            <!--end::Actions-->
         </div>
         <!--end::Toolbar container-->
     </div>
@@ -50,11 +54,14 @@
             <div class="card">
                 <!--begin::Card header-->
                 <div class="card-header border-0 pt-6">
+                    <!--begin::Card title-->
                     <div class="card-title">
                         <h2 class="fw-bold">{{ $room->block->name }} Blok - {{ $room->number }} Numaralı Oda</h2>
                     </div>
+                    <!--end::Card title-->
                 </div>
                 <!--end::Card header-->
+
                 <!--begin::Card body-->
                 <div class="card-body py-4">
                     <!--begin::Table container-->
