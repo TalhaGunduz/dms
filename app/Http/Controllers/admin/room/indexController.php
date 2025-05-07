@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\DB;
 
 
 class IndexController extends Controller
@@ -101,7 +102,8 @@ class IndexController extends Controller
     public function getRoomsByBlock($blockId)
     {
         $rooms = Room::where('block_id', $blockId)
-            ->select('id', 'number', 'capacity', 'current_students')
+            ->select('rooms.id', 'rooms.number', 'rooms.capacity', 'rooms.current_students')
+            ->addSelect(DB::raw('(SELECT COUNT(*) FROM student_room WHERE room_id = rooms.id) as actual_students'))
             ->get();
 
         return response()->json($rooms);

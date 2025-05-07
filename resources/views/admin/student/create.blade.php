@@ -228,15 +228,27 @@
                 roomSelect.innerHTML = '<option value="">Oda Seçiniz</option>';
                 
                 rooms.forEach(function(room) {
-                    const availableCapacity = room.capacity - room.current_students;
+                    const availableCapacity = room.capacity - room.actual_students;
+                    const roomNumber = room.number.toString().padStart(3, '0');
+                    
                     if (availableCapacity > 0) {
                         roomSelect.innerHTML += `
                             <option value="${room.id}">
-                                Oda ${room.number} (Kalan Kapasite: ${availableCapacity})
+                                ${roomNumber} - ${availableCapacity}/${room.capacity} Boş
+                            </option>
+                        `;
+                    } else {
+                        roomSelect.innerHTML += `
+                            <option value="" disabled style="color: #dc3545; font-weight: bold;">
+                                ${roomNumber} - DOLU
                             </option>
                         `;
                     }
                 });
+                
+                if (roomSelect.options.length <= 1) {
+                    roomSelect.innerHTML = '<option value="">Bu blokta boş oda bulunmamaktadır</option>';
+                }
                 
                 roomSelect.disabled = false;
             },

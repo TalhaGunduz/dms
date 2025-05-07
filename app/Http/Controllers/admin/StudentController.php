@@ -8,6 +8,7 @@ use App\Models\Room;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -34,12 +35,18 @@ class StudentController extends Controller
         ]);
 
         try {
-            \DB::beginTransaction();
+            DB::beginTransaction();
 
             // Oda kapasitesini kontrol et
             $room = Room::lockForUpdate()->findOrFail($request->room_id);
-            if ($room->current_students >= $room->capacity) {
-                throw new \Exception('Seçilen oda dolu.');
+            
+            // Oda kapasitesini kontrol et
+            $currentStudentsCount = DB::table('student_room')
+                ->where('room_id', $room->id)
+                ->count();
+
+            if ($currentStudentsCount >= $room->capacity) {
+                throw new \Exception('Seçilen oda dolu. Lütfen başka bir oda seçiniz.');
             }
 
             // Şifreyi hashle
@@ -50,16 +57,27 @@ class StudentController extends Controller
             // Öğrenciyi kaydet
             $student = Student::create($data);
 
-            // Oda kapasitesini güncelle
-            $room->increment('current_students');
+            // Öğrenci-oda ilişkisini oluştur
+            DB::table('student_room')->insert([
+                'student_id' => $student->id,
+                'room_id' => $room->id,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
 
-            \DB::commit();
+            // Oda kapasitesini güncelle
+            $room->current_students = $currentStudentsCount + 1;
+            $room->save();
+
+            DB::commit();
 
             return redirect()->route('admin.student.index')
                 ->with('success', 'Öğrenci başarıyla kaydedildi.');
         } catch (\Exception $e) {
-            \DB::rollBack();
-            return back()->withErrors(['error' => $e->getMessage()]);
+            DB::rollBack();
+            return back()
+                ->withInput()
+                ->withErrors(['error' => $e->getMessage()]);
         }
     }
 

@@ -8,7 +8,7 @@
             data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
             <!--begin::Menu-->
             <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold fs-6" id="#kt_app_sidebar_menu"
-                data-kt-menu="true" data-kt-menu-expand="false">
+                data-kt-menu="true">
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
@@ -28,7 +28,6 @@
                 <!--end:Menu item-->
 
                 <!--begin:Menu item-->
-                
                 <div class="menu-item">
                     <!--begin:Menu link-->
                     <a class="menu-link" href="{{ route('admin.user.index') }}">
@@ -79,9 +78,70 @@
                     </a>
                     <!--end:Menu link-->
                 </div>
-               
 
+                <!--begin:Menu item-->
+                <div class="menu-item pt-5">
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">Varlık Yönetimi</span>
+                    </div>
+                </div>
+                <!--end:Menu item-->
 
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <a class="menu-link" href="{{ route('admin.assets.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-box fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Varlık Envanteri</span>
+                    </a>
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <a class="menu-link" href="{{ route('admin.room-assets.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-box fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Oda Varlıkları</span>
+                    </a>
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <a class="menu-link" href="{{ route('admin.maintenance-requests.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-box fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Bakım Talepleri</span>
+                    </a>
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <a class="menu-link" href="{{ route('admin.maintenance-logs.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-box fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Bakım Geçmişi</span>
+                    </a>
+                </div>
+                <!--end:Menu item-->
             </div>
             <!--end::Menu-->
         </div>

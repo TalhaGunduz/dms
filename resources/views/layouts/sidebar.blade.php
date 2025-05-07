@@ -75,6 +75,42 @@
                     </a>
                 </div>
                 <!--end:Menu item-->
+
+                <!-- Demirbaş Yönetimi -->
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs('admin.assets.*') || request()->routeIs('admin.room-assets.*') || request()->routeIs('admin.maintenance-requests.*') || request()->routeIs('admin.maintenance-logs.*') ? 'active' : '' }}" data-kt-menu-trigger="click" data-kt-menu-placement="right-start">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-box fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Demirbaş Yönetimi</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="menu-sub menu-sub-dropdown menu-active-bg py-4 w-225px">
+                        <div class="menu-item px-3">
+                            <a class="menu-link px-3 {{ request()->routeIs('admin.assets.*') ? 'active' : '' }}" href="{{ route('admin.assets.index') }}">
+                                Demirbaşlar
+                            </a>
+                        </div>
+                        <div class="menu-item px-3">
+                            <a class="menu-link px-3 {{ request()->routeIs('admin.room-assets.*') ? 'active' : '' }}" href="{{ route('admin.room-assets.index') }}">
+                                Oda Demirbaşları
+                            </a>
+                        </div>
+                        <div class="menu-item px-3">
+                            <a class="menu-link px-3 {{ request()->routeIs('admin.maintenance-requests.*') ? 'active' : '' }}" href="{{ route('admin.maintenance-requests.index') }}">
+                                Bakım Talepleri
+                            </a>
+                        </div>
+                        <div class="menu-item px-3">
+                            <a class="menu-link px-3 {{ request()->routeIs('admin.maintenance-logs.*') ? 'active' : '' }}" href="{{ route('admin.maintenance-logs.index') }}">
+                                Bakım Geçmişi
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!--end::Menu-->
         </div>

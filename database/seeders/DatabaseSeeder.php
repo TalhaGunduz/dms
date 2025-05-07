@@ -1,10 +1,8 @@
 <?php
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\Block;
-
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,16 +11,12 @@ class DatabaseSeeder extends Seeder
     */
     public function run(): void
     {
-        // Kullanıcı oluşturma
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => bcrypt('password') // Şifreyi hash'li şekilde kaydediyoruz
+        DB::table('rooms')->truncate();
+        DB::table('blocks')->truncate();
+        DB::table('blocks')->insert([
+            ['name' => 'A', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'B', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'C', 'created_at' => now(), 'updated_at' => now()],
         ]);
-
-        // BlockSeeder'ı çağırıyoruz
-        Block::create(['name' => 'A']);
-        Block::create(['name' => 'B']);
-        Block::create(['name' => 'C']);
     }
 }

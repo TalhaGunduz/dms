@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\DB;
 
 class Room extends Model
 {
@@ -15,6 +16,7 @@ class Room extends Model
         'number',
         'capacity',
         'block_id',
+        'current_students',
     ];
 
     public function block(): BelongsTo
@@ -40,6 +42,10 @@ class Room extends Model
 
     public function isFull(): bool
     {
-        return $this->getAvailableCapacity() <= 0;
+        $currentStudentsCount = DB::table('student_room')
+            ->where('room_id', $this->id)
+            ->count();
+            
+        return $currentStudentsCount >= $this->capacity;
     }
 }

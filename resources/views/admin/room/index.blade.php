@@ -271,19 +271,29 @@
                                             </td>
                                             <td class="text-center px-2">
                                                 <div class="d-flex flex-column align-items-center">
-                                                    <span class="badge {{ $room->isFull() ? 'badge-light-danger' : 'badge-light-success' }} fs-6 px-4 py-2 mb-1">
-                                                        {{ $room->getAvailableCapacity() }}/{{ $room->capacity }}
-                                                    </span>
+                                                    @if($room->isFull())
+                                                        <span class="badge badge-light-danger fs-6 px-4 py-2 mb-1">
+                                                            <i class="ki-duotone ki-cross-circle fs-2 me-1">
+                                                                <span class="path1"></span>
+                                                                <span class="path2"></span>
+                                                            </i>
+                                                            ODA DOLU
+                                                        </span>
+                                                    @else
+                                                        <span class="badge badge-light-success fs-6 px-4 py-2 mb-1">
+                                                            {{ $room->getAvailableCapacity() }}/{{ $room->capacity }}
+                                                        </span>
+                                                    @endif
                                                     <div class="progress h-6px w-100px border border-gray-300">
                                                         <div class="progress-bar {{ $room->isFull() ? 'bg-danger' : 'bg-success' }}" role="progressbar" 
-                                                             style="width: {{ ($room->getAvailableCapacity() / $room->capacity) * 100 }}%"
-                                                             aria-valuenow="{{ ($room->getAvailableCapacity() / $room->capacity) * 100 }}" 
+                                                             style="width: {{ ($room->getCurrentStudentsCount() / $room->capacity) * 100 }}%"
+                                                             aria-valuenow="{{ ($room->getCurrentStudentsCount() / $room->capacity) * 100 }}" 
                                                              aria-valuemin="0" 
                                                              aria-valuemax="100">
                                                         </div>
                                                     </div>
                                                     <small class="text-muted mt-1">
-                                                        {{ number_format(($room->getAvailableCapacity() / $room->capacity) * 100, 0) }}% Boş
+                                                        {{ number_format(($room->getCurrentStudentsCount() / $room->capacity) * 100, 0) }}% Doluluk
                                                     </small>
                                                 </div>
                                             </td>

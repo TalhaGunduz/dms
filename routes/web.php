@@ -7,6 +7,11 @@ use App\Http\Controllers\Admin\User\indexController as UserController;
 use App\Http\Controllers\Admin\Student\indexController as StudentController;
 use App\Http\Controllers\Admin\Room\indexController as RoomController;
 use App\Http\Controllers\Admin\TransferController;
+use App\Http\Controllers\Admin\AssetController;
+use App\Http\Controllers\Admin\RoomAssetController;
+use App\Http\Controllers\Admin\MaintenanceRequestController;
+use App\Http\Controllers\Admin\MaintenanceLogController;
+use App\Http\Controllers\Admin\indexController as AdminController;
 
 
 
@@ -23,82 +28,65 @@ use App\Http\Controllers\Admin\TransferController;
 
 // Main route
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 // Authentication routes
-
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login'])->name('login.post');
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 // Home route (after login)
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Login and Logout routes
-Route::post('/login', [LoginController::class, 'login'])->name('login.post');
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-
-
-
-
-
-//----------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
-
-    // Admin dashboard route
-    Route::get('/', [DashboardController::class, 'index'])->name('index');
-
-    // User management routes
-    Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+// Admin routes
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('index');
+    
+    // User Management
+    Route::prefix('user')->name('user.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
-        Route::get('/data', [UserController::class, 'data'])->name('data');
         Route::get('/create', [UserController::class, 'create'])->name('create');
-        Route::get('/destroy/{id}', [UserController::class, 'destroy'])->name('destroy');
+        Route::post('/store', [UserController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [UserController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [UserController::class, 'update'])->name('update');
-        Route::post('/store', [UserController::class, 'store'])->name('store');
-        Route::post('/user/update-status', [UserController::class, 'updateUserStatus'])->name('user.updateStatus');
+        Route::get('/destroy/{id}', [UserController::class, 'destroy'])->name('destroy');
+        Route::get('/data', [UserController::class, 'data'])->name('data');
+        Route::post('/user/update-status', [UserController::class, 'updateStatus'])->name('user.updateStatus');
     });
 
-// Student management routes
-Route::group(['prefix' => 'student', 'as' => 'student.'], function () {
-    Route::get('/', [StudentController::class, 'index'])->name('index');
-    Route::get('/data', [StudentController::class, 'data'])->name('data');
-    Route::get('/create', [StudentController::class, 'create'])->name('create');
-    Route::get('/destroy/{id}', [StudentController::class, 'destroy'])->name('destroy');
-    Route::get('/edit/{id}', [StudentController::class, 'edit'])->name('edit');
-    Route::get('/show/{id}', [StudentController::class, 'show'])->name('show');
-    Route::post('/update/{id}', [StudentController::class, 'update'])->name('update');
-    Route::post('/store', [StudentController::class, 'store'])->name('store');
-    Route::post('/user/update-status', [StudentController::class, 'updateUserStatus'])->name('user.updateStatus');
-    Route::get('admin/students/data', [StudentController::class, 'getData'])->name('students.getData');
-    Route::get('/rooms/by-block/{blockId}', [StudentController::class, 'getRoomsByBlock'])->name('rooms.by-block');
-    
-});
+    // Student Management
+    Route::prefix('student')->name('student.')->group(function () {
+        Route::get('/', [StudentController::class, 'index'])->name('index');
+        Route::get('/create', [StudentController::class, 'create'])->name('create');
+        Route::post('/store', [StudentController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [StudentController::class, 'edit'])->name('edit');
+        Route::post('/update/{id}', [StudentController::class, 'update'])->name('update');
+        Route::get('/destroy/{id}', [StudentController::class, 'destroy'])->name('destroy');
+        Route::get('/show/{id}', [StudentController::class, 'show'])->name('show');
+        Route::get('/data', [StudentController::class, 'data'])->name('data');
+        Route::post('/user/update-status', [StudentController::class, 'updateStatus'])->name('user.updateStatus');
+        Route::get('/rooms/by-block/{blockId}', [StudentController::class, 'getRoomsByBlock'])->name('rooms.by-block');
+    });
 
-
-
-    // Room management routes
-    Route::group(['prefix' => 'room', 'as' => 'room.'], function () {
+    // Room Management
+    Route::prefix('room')->name('room.')->group(function () {
         Route::get('/', [RoomController::class, 'index'])->name('index');
-        Route::get('/data', [RoomController::class, 'data'])->name('data');
         Route::get('/create', [RoomController::class, 'create'])->name('create');
-        Route::get('/destroy/{id}', [RoomController::class, 'destroy'])->name('destroy');
-        Route::get('/edit/{id}', [RoomController::class, 'edit'])->name('edit');
-        Route::get('/show/{id}', [RoomController::class, 'show'])->name('show');
-        Route::post('/update/{id}', [RoomController::class, 'update'])->name('update');
         Route::post('/store', [RoomController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [RoomController::class, 'edit'])->name('edit');
+        Route::post('/update/{id}', [RoomController::class, 'update'])->name('update');
+        Route::get('/destroy/{id}', [RoomController::class, 'destroy'])->name('destroy');
+        Route::get('/show/{id}', [RoomController::class, 'show'])->name('show');
+        Route::get('/data', [RoomController::class, 'data'])->name('data');
         Route::get('/get-rooms/{blockId}', [RoomController::class, 'getRoomsByBlock'])->name('get-rooms');
     });
 
-    // Transfer routes
-    Route::get('/transfer', [TransferController::class, 'index'])->name('transfer.index');
-    Route::post('/transfer', [TransferController::class, 'transfer'])->name('transfer.process');
-
+    // Asset Management
+    Route::resource('assets', AssetController::class);
+    Route::resource('room-assets', RoomAssetController::class);
+    Route::resource('maintenance-requests', MaintenanceRequestController::class);
+    Route::resource('maintenance-logs', MaintenanceLogController::class);
 });
 
 
