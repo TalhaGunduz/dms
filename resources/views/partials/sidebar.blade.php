@@ -18,8 +18,16 @@
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Anasayfa</span>
+                        <span class="menu-title">Dashboard</span>
                     </a>
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item pt-5">
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">Yönetim</span>
+                    </div>
                 </div>
                 <!--end:Menu item-->
 
@@ -32,7 +40,7 @@
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Kullanıcı Yönetimi</span>
+                        <span class="menu-title">Kullanıcılar</span>
                     </a>
                 </div>
                 <!--end:Menu item-->
@@ -46,7 +54,7 @@
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Öğrenci Yönetimi</span>
+                        <span class="menu-title">Öğrenciler</span>
                     </a>
                 </div>
                 <!--end:Menu item-->
@@ -60,7 +68,7 @@
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Oda Yönetimi</span>
+                        <span class="menu-title">Odalar</span>
                     </a>
                 </div>
                 <!--end:Menu item-->
@@ -74,7 +82,7 @@
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Oda Transfer</span>
+                        <span class="menu-title">Transfer İşlemleri</span>
                     </a>
                 </div>
                 <!--end:Menu item-->
@@ -82,7 +90,7 @@
                 <!--begin:Menu item-->
                 <div class="menu-item pt-5">
                     <div class="menu-content">
-                        <span class="menu-heading fw-bold text-uppercase fs-7">Ödeme Yönetimi</span>
+                        <span class="menu-heading fw-bold text-uppercase fs-7">Finans</span>
                     </div>
                 </div>
                 <!--end:Menu item-->
@@ -118,7 +126,7 @@
                 <!--begin:Menu item-->
                 <div class="menu-item pt-5">
                     <div class="menu-content">
-                        <span class="menu-heading fw-bold text-uppercase fs-7">Personel Yönetimi</span>
+                        <span class="menu-heading fw-bold text-uppercase fs-7">Personel</span>
                     </div>
                 </div>
                 <!--end:Menu item-->
@@ -146,7 +154,7 @@
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Roller</span>
+                        <span class="menu-title">Roller ve İzinler</span>
                     </a>
                 </div>
                 <!--end:Menu item-->
@@ -204,6 +212,14 @@
                         </span>
                         <span class="menu-title">Dokümanlar</span>
                     </a>
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item pt-5">
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">Yemekhane</span>
+                    </div>
                 </div>
                 <!--end:Menu item-->
 
@@ -309,11 +325,10 @@
 <!--end::sidebar menu-->
 <!--begin::Footer-->
 <div class="app-sidebar-footer flex-column-auto pt-2 pb-6 px-6" id="kt_app_sidebar_footer">
-    <a href="https://preview.keenthemes.com/html/metronic/docs"
-        class="btn btn-flex flex-center btn-custom btn-primary overflow-hidden text-nowrap px-0 h-40px w-100"
+    <a href="#" class="btn btn-flex flex-center btn-custom btn-primary overflow-hidden text-nowrap px-0 h-40px w-100"
         data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss-="click"
-        title="200+ in-house components and 3rd-party plugins">
-        <span class="btn-label">Docs & Components</span>
+        title="Yardım ve Destek">
+        <span class="btn-label">Yardım ve Destek</span>
         <i class="ki-duotone ki-document btn-icon fs-2 m-0">
             <span class="path1"></span>
             <span class="path2"></span>
