@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
+use App\Models\Block;
 use App\Models\Room;
+use App\Models\Transfer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,45 +14,69 @@ class TransferController extends Controller
 {
     public function index()
     {
-        $students = Student::with(['rooms' => function($query) {
-            $query->with('block');
-        }])->get();
-        
-        $rooms = Room::with('block')->get();
-        
-        return view('admin.transfer.index', compact('students', 'rooms'));
+        $students = Student::with(['rooms.block'])->get();
+        $model_text = 'Transfer';
+        $button_link = '';
+        return view('admin.transfer.index', compact('students', 'model_text', 'button_link'));
     }
 
-    public function transfer(Request $request)
+    public function edit($studentId)
+    {
+        $student = Student::with(['rooms.block'])->findOrFail($studentId);
+        $blocks = Block::all();
+        $rooms = Room::all();
+        return view('admin.transfer.edit', compact('student', 'blocks', 'rooms'));
+    }
+
+    public function update(Request $request, $studentId)
     {
         $request->validate([
-            'student_id' => 'required|exists:students,id',
-            'new_room_id' => 'required|exists:rooms,id'
+            'block_id' => 'required|exists:blocks,id',
+            'room_id' => 'required|exists:rooms,id',
         ]);
 
-        try {
-            DB::beginTransaction();
+        $student = Student::findOrFail($studentId);
+        $oldRoom = $student->rooms()->first();
+        $newRoom = Room::findOrFail($request->room_id);
 
-            $student = Student::findOrFail($request->student_id);
-            $newRoom = Room::findOrFail($request->new_room_id);
-
-            // Yeni odanın kapasitesini kontrol et
-            if ($newRoom->isFull()) {
-                return back()->with('error', 'Seçilen oda dolu!');
+        DB::transaction(function () use ($student, $oldRoom, $newRoom, $request) {
+            if ($oldRoom) {
+                $student->rooms()->detach($oldRoom->id);
             }
+            $student->rooms()->attach($newRoom->id);
+            Transfer::create([
+                'student_id' => $student->id,
+                'from_room_id' => $oldRoom ? $oldRoom->id : null,
+                'to_room_id' => $newRoom->id,
+                'transfer_date' => now(),
+                'reason' => $request->input('reason') ?: '',
+                'status' => 'completed',
+            ]);
+        });
 
-            // Öğrencinin mevcut odasından çıkar
-            $student->rooms()->detach();
+        return redirect()->route('admin.transfer.index')->with('success', 'Transfer işlemi başarıyla tamamlandı.');
+    }
 
-            // Yeni odaya ekle
-            $student->rooms()->attach($request->new_room_id);
+    public function data()
+    {
+        $transfers = Transfer::with(['student', 'fromRoom', 'toRoom'])
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-            DB::commit();
-            return back()->with('success', 'Öğrenci başarıyla transfer edildi.');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Transfer işlemi sırasında bir hata oluştu.');
-        }
+        return datatables()->of($transfers)
+            ->addColumn('student_name', function ($transfer) {
+                return $transfer->student->name;
+            })
+            ->addColumn('from_room', function ($transfer) {
+                return $transfer->fromRoom->room_number;
+            })
+            ->addColumn('to_room', function ($transfer) {
+                return $transfer->toRoom->room_number;
+            })
+            ->addColumn('actions', function ($transfer) {
+                return view('admin.transfer.actions', compact('transfer'))->render();
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
 }

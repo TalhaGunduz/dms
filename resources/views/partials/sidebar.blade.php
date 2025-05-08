@@ -11,135 +11,292 @@
                 data-kt-menu="true">
                 <!--begin:Menu item-->
                 <div class="menu-item">
-                    <!--begin:Menu link-->
-                    <a class="menu-link" href="{{ route('admin.index') }}">
+                    <a class="menu-link {{ request()->routeIs('admin.index') ? 'active' : '' }}" href="{{ route('admin.index') }}">
                         <span class="menu-icon">
-                            <i class="ki-duotone ki-element-11 fs-2">
+                            <i class="ki-duotone ki-home-2 fs-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
-                                <span class="path3"></span>
-                                <span class="path4"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Dashboard</span>
+                        <span class="menu-title">Anasayfa</span>
                     </a>
-                    <!--end:Menu link-->
                 </div>
                 <!--end:Menu item-->
 
                 <!--begin:Menu item-->
                 <div class="menu-item">
-                    <!--begin:Menu link-->
-                    <a class="menu-link" href="{{ route('admin.user.index') }}">
+                    <a class="menu-link {{ request()->routeIs('admin.user.*') ? 'active' : '' }}" href="{{ route('admin.user.index') }}">
                         <span class="menu-icon">
-                            <i class="ki-duotone ki-user fs-2">
+                            <i class="ki-duotone ki-profile-user fs-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
-                                <span class="path3"></span>
-                                <span class="path4"></span>
-                                <span class="path5"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Kullanıcı İşlemleri</span>
+                        <span class="menu-title">Kullanıcı Yönetimi</span>
                     </a>
-                    <!--end:Menu link-->
                 </div>
+                <!--end:Menu item-->
 
+                <!--begin:Menu item-->
                 <div class="menu-item">
-                    <!--begin:Menu link-->
-                    <a class="menu-link" href="{{ route('admin.student.index') }}">
+                    <a class="menu-link {{ request()->routeIs('admin.student.*') ? 'active' : '' }}" href="{{ route('admin.student.index') }}">
                         <span class="menu-icon">
-                            <i class="ki-duotone ki-user fs-2">
+                            <i class="ki-duotone ki-profile-circle fs-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
-                                <span class="path3"></span>
-                                <span class="path4"></span>
-                                <span class="path5"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Öğrenci İşlemleri</span>
+                        <span class="menu-title">Öğrenci Yönetimi</span>
                     </a>
-                    <!--end:Menu link-->
                 </div>
+                <!--end:Menu item-->
 
+                <!--begin:Menu item-->
                 <div class="menu-item">
-                    <!--begin:Menu link-->
-                    <a class="menu-link" href="{{ route('admin.room.index') }}">
+                    <a class="menu-link {{ request()->routeIs('admin.room.*') ? 'active' : '' }}" href="{{ route('admin.room.index') }}">
                         <span class="menu-icon">
-                            <i class="ki-duotone ki-user fs-2">
+                            <i class="ki-duotone ki-home-2 fs-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
-                                <span class="path3"></span>
-                                <span class="path4"></span>
-                                <span class="path5"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Oda İşlemleri</span>
+                        <span class="menu-title">Oda Yönetimi</span>
                     </a>
-                    <!--end:Menu link-->
                 </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs('admin.transfer.*') ? 'active' : '' }}" href="{{ route('admin.transfer.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-switch fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Oda Transfer</span>
+                    </a>
+                </div>
+                <!--end:Menu item-->
 
                 <!--begin:Menu item-->
                 <div class="menu-item pt-5">
                     <div class="menu-content">
-                        <span class="menu-heading fw-bold text-uppercase fs-7">Varlık Yönetimi</span>
+                        <span class="menu-heading fw-bold text-uppercase fs-7">Ödeme Yönetimi</span>
                     </div>
                 </div>
                 <!--end:Menu item-->
 
                 <!--begin:Menu item-->
                 <div class="menu-item">
-                    <a class="menu-link" href="{{ route('admin.assets.index') }}">
+                    <a class="menu-link {{ request()->routeIs('admin.payment.*') && !request()->routeIs('admin.payment.create') ? 'active' : '' }}" href="{{ route('admin.payment.index') }}">
                         <span class="menu-icon">
-                            <i class="ki-duotone ki-box fs-2">
+                            <i class="ki-duotone ki-dollar fs-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Varlık Envanteri</span>
+                        <span class="menu-title">Ödemeler</span>
                     </a>
                 </div>
                 <!--end:Menu item-->
 
                 <!--begin:Menu item-->
                 <div class="menu-item">
-                    <a class="menu-link" href="{{ route('admin.room-assets.index') }}">
+                    <a class="menu-link {{ request()->routeIs('admin.payment.create') ? 'active' : '' }}" href="{{ route('admin.payment.create') }}">
                         <span class="menu-icon">
-                            <i class="ki-duotone ki-box fs-2">
+                            <i class="ki-duotone ki-plus fs-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Oda Varlıkları</span>
+                        <span class="menu-title">Yeni Ödeme</span>
+                    </a>
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item pt-5">
+                    <div class="menu-content">
+                        <span class="menu-heading fw-bold text-uppercase fs-7">Personel Yönetimi</span>
+                    </div>
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs('admin.staff.*') && !request()->routeIs('admin.staff.roles.*') && !request()->routeIs('admin.staff.attendance.*') && !request()->routeIs('admin.staff.schedules.*') && !request()->routeIs('admin.staff.qualifications.*') && !request()->routeIs('admin.staff.documents.*') ? 'active' : '' }}" href="{{ route('admin.staff.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-profile-user fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Personel Listesi</span>
                     </a>
                 </div>
                 <!--end:Menu item-->
 
                 <!--begin:Menu item-->
                 <div class="menu-item">
-                    <a class="menu-link" href="{{ route('admin.maintenance-requests.index') }}">
+                    <a class="menu-link {{ request()->routeIs('admin.staff.roles.*') ? 'active' : '' }}" href="{{ route('admin.staff.roles.index') }}">
                         <span class="menu-icon">
-                            <i class="ki-duotone ki-box fs-2">
+                            <i class="ki-duotone ki-shield-tick fs-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Bakım Talepleri</span>
+                        <span class="menu-title">Roller</span>
                     </a>
                 </div>
                 <!--end:Menu item-->
 
                 <!--begin:Menu item-->
                 <div class="menu-item">
-                    <a class="menu-link" href="{{ route('admin.maintenance-logs.index') }}">
+                    <a class="menu-link {{ request()->routeIs('admin.staff.attendance.*') ? 'active' : '' }}" href="{{ route('admin.staff.attendance.index') }}">
                         <span class="menu-icon">
-                            <i class="ki-duotone ki-box fs-2">
+                            <i class="ki-duotone ki-calendar-tick fs-2">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Bakım Geçmişi</span>
+                        <span class="menu-title">Devam Takibi</span>
                     </a>
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs('admin.staff.schedules.*') ? 'active' : '' }}" href="{{ route('admin.staff.schedules.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-calendar fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Çalışma Programları</span>
+                    </a>
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs('admin.staff.qualifications.*') ? 'active' : '' }}" href="{{ route('admin.staff.qualifications.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-document fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Yeterlilikler</span>
+                    </a>
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs('admin.staff.documents.*') ? 'active' : '' }}" href="{{ route('admin.staff.documents.index') }}">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-folder fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Dokümanlar</span>
+                    </a>
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <a class="menu-link {{ request()->routeIs('admin.menu.*') ? 'active' : '' }}" href="{{ route('admin.menu.dashboard') }}">
+                        <span class="menu-icon">
+                            <i class="fas fa-utensils fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Menü Yönetimi</span>
+                    </a>
+                    <div class="menu-sub menu-sub-dropdown">
+                        <div class="menu-item">
+                            <a class="menu-link {{ request()->routeIs('admin.menu.daily.*') ? 'active' : '' }}" href="{{ route('admin.menu.daily.index') }}">
+                                <span class="menu-icon">
+                                    <i class="fas fa-calendar-alt fs-2">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </span>
+                                <span class="menu-title">Günlük Menüler</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a class="menu-link {{ request()->routeIs('admin.menu.food.*') && request()->type == 'main_dish' ? 'active' : '' }}" href="{{ route('admin.menu.food.index', ['type' => 'main_dish']) }}">
+                                <span class="menu-icon">
+                                    <i class="fas fa-utensils fs-2">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </span>
+                                <span class="menu-title">Ana Yemekler</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a class="menu-link {{ request()->routeIs('admin.menu.food.*') && request()->type == 'side_dish' ? 'active' : '' }}" href="{{ route('admin.menu.food.index', ['type' => 'side_dish']) }}">
+                                <span class="menu-icon">
+                                    <i class="fas fa-hamburger fs-2">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </span>
+                                <span class="menu-title">Ara Yemekler</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a class="menu-link {{ request()->routeIs('admin.menu.food.*') && request()->type == 'dessert' ? 'active' : '' }}" href="{{ route('admin.menu.food.index', ['type' => 'dessert']) }}">
+                                <span class="menu-icon">
+                                    <i class="fas fa-ice-cream fs-2">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </span>
+                                <span class="menu-title">Tatlılar</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a class="menu-link {{ request()->routeIs('admin.menu.food.*') && request()->type == 'salad' ? 'active' : '' }}" href="{{ route('admin.menu.food.index', ['type' => 'salad']) }}">
+                                <span class="menu-icon">
+                                    <i class="fas fa-leaf fs-2">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </span>
+                                <span class="menu-title">Salatalar</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a class="menu-link {{ request()->routeIs('admin.menu.food.*') && request()->type == 'beverage' ? 'active' : '' }}" href="{{ route('admin.menu.food.index', ['type' => 'beverage']) }}">
+                                <span class="menu-icon">
+                                    <i class="fas fa-glass-martini-alt fs-2">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </span>
+                                <span class="menu-title">İçecekler</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a class="menu-link {{ request()->routeIs('admin.menu.food.*') && request()->type == 'soup' ? 'active' : '' }}" href="{{ route('admin.menu.food.index', ['type' => 'soup']) }}">
+                                <span class="menu-icon">
+                                    <i class="fas fa-soup fs-2">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </span>
+                                <span class="menu-title">Çorbalar</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <!--end:Menu item-->
             </div>
