@@ -28,13 +28,13 @@
         <div class="card-toolbar">
             <!--begin::Toolbar-->
             <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                <a href="{{ route('admin.menu.food.create', ['type' => $type]) }}" class="btn btn-primary">
+            <a href="{{ route('admin.menu.food.create', ['type' => $type]) }}" class="btn btn-primary">
                     <i class="ki-duotone ki-plus fs-2">
                         <span class="path1"></span>
                         <span class="path2"></span>
                     </i>
                     Yeni {{ $title }} Ekle
-                </a>
+            </a>
             </div>
             <!--end::Toolbar-->
         </div>

@@ -47,6 +47,11 @@ class Payment extends Model
         return $this->hasOne(PaymentReceipt::class);
     }
 
+    public function student()
+    {
+        return $this->belongsTo(\App\Models\Student::class, 'payer_id');
+    }
+
     public function getPayerNameAttribute()
     {
         if ($this->payer_type === Student::class) {

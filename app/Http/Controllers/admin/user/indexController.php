@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Storage;
 
 class IndexController extends Controller
 {
@@ -46,10 +47,19 @@ class IndexController extends Controller
     {
         $all = $request->except('_token');
 
+        $avatar = null;
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/avatars', $filename);
+            $avatar = $filename;
+        }
+
         $create = User::create([
             'name' => $all['name'],
             'email' => $all['email'],
             'password' => Hash::make($all['password']),
+            'avatar' => $avatar,
         ]);
         toast($this->model . " , başarıyla eklendi", 'success');
         if (isset($create)) {
@@ -81,18 +91,29 @@ class IndexController extends Controller
     public function update(UserRequest $request, $id)
     {
         $all = $request->except('_token');
+        $user = User::findOrFail($id);
 
-        $update = User::where('id', $id)->update([
-            'name' => $all['name'],
-            'email' => $all['email'],
-            'status' => $all['status'],
-            'password' => Hash::make($all['password']),
-        ]);
+        if ($request->hasFile('avatar')) {
+            // Eski avatarı sil
+            if ($user->avatar && Storage::exists('public/avatars/' . $user->avatar)) {
+                Storage::delete('public/avatars/' . $user->avatar);
+            }
+            $file = $request->file('avatar');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/avatars', $filename);
+            $user->avatar = $filename;
+        }
+
+        $user->name = $all['name'];
+        $user->email = $all['email'];
+        $user->status = $all['status'] ?? 'active';
+        if (!empty($all['password'])) {
+            $user->password = Hash::make($all['password']);
+        }
+        $user->save();
 
         toast($this->model . " , Başarıyla düzenlendi", 'info');
-        if (isset($update)) {
-            return redirect()->route('admin.' . $this->model . '.index');
-        }
+        return redirect()->route('admin.' . $this->model . '.index');
     }
 
     public function getUsers()
@@ -161,7 +182,7 @@ class IndexController extends Controller
                 return $item->email;
             })
             ->editColumn('status', function ($item) {
-                return $item->status == 1
+                return $item->status == 'active'
                     ? "<span class='badge badge-success'>Aktif</span>"
                     : "<span class='badge badge-danger'>Pasif</span>";
             })

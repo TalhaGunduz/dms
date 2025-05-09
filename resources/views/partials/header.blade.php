@@ -5379,7 +5379,7 @@ License: For each use you must have a valid license purchased only from above li
                                 <div class="cursor-pointer symbol symbol-35px"
                                     data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
                                     data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-                                    <img src="{{ Avatar::create('talha gündüz')->toBase64() }}" class="rounded-3"
+                                    <img src="{{ Avatar::create(Auth::user()->name ?? 'Kullanıcı')->toBase64() }}" class="rounded-3"
                                         alt="user" />
                                 </div>
                                 <!--begin::User account menu-->
@@ -5390,8 +5390,7 @@ License: For each use you must have a valid license purchased only from above li
                                         <div class="menu-content d-flex align-items-center px-3">
                                             <!--begin::Avatar-->
                                             <div class="symbol symbol-50px me-5">
-                                                {{-- <img alt="Logo" src="{{ asset('assets/media/avatars/300-3.jpg') }}" /> --}}
-                                                <img src="{{ Avatar::create('talha gündüz')->toBase64() }}" />
+                                                <img src="{{ Avatar::create(Auth::user()->name ?? 'Kullanıcı')->toBase64() }}" />
                                             </div>
                                             <!--end::Avatar-->
                                             <!--begin::Username-->
@@ -5406,7 +5405,6 @@ License: For each use you must have a valid license purchased only from above li
                                                         class="fw-semibold text-muted text-hover-primary fs-7">{{ Auth::user()->email }}</a>
                                                 </div>
                                             @endauth
-
                                             <!--end::Username-->
                                         </div>
                                     </div>
@@ -5416,7 +5414,7 @@ License: For each use you must have a valid license purchased only from above li
                                     <!--end::Menu separator-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-5">
-                                        <a href="../../demo1/dist/account/overview.html" class="menu-link px-5">My
+                                        <a href="{{ route('user.profile') }}" class="menu-link px-5">My
                                             Profile</a>
                                     </div>
                                     <!--end::Menu item-->

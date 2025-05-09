@@ -17,7 +17,12 @@ class Room extends Model
         'capacity',
         'block_id',
         'current_students',
+        'status',
     ];
+
+    // Status constants
+    const STATUS_AVAILABLE = 'available';
+    const STATUS_OCCUPIED = 'occupied';
 
     public function block(): BelongsTo
     {
@@ -47,5 +52,31 @@ class Room extends Model
             ->count();
             
         return $currentStudentsCount >= $this->capacity;
+    }
+
+    public function isAvailable(): bool
+    {
+        return $this->status === self::STATUS_AVAILABLE;
+    }
+
+    public function isOccupied(): bool
+    {
+        return $this->status === self::STATUS_OCCUPIED;
+    }
+
+    public function updateStatus(): void
+    {
+        $this->status = $this->getCurrentStudentsCount() > 0 ? self::STATUS_OCCUPIED : self::STATUS_AVAILABLE;
+        $this->save();
+    }
+
+    protected static function booted()
+    {
+        static::saved(function ($room) {
+            // Update status when room is saved
+            if ($room->isDirty('current_students')) {
+                $room->updateStatus();
+            }
+        });
     }
 }

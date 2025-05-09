@@ -20,7 +20,6 @@ class FoodSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
 
         // Önce tabloları temizle
-        DB::table('daily_menus')->truncate();
         DB::table('soups')->truncate();
         DB::table('beverages')->truncate();
         DB::table('salads')->truncate();
@@ -33,11 +32,46 @@ class FoodSeeder extends Seeder
 
         // Main Dishes
         $mainDishes = [
-            ['name' => 'Tavuk Sote', 'description' => 'Sebzeli tavuk sote', 'price' => 45.00, 'is_available' => true, 'calories' => 350],
-            ['name' => 'Köfte', 'description' => 'Izgara köfte', 'price' => 50.00, 'is_available' => true, 'calories' => 400],
-            ['name' => 'Tavuk Şiş', 'description' => 'Izgara tavuk şiş', 'price' => 48.00, 'is_available' => true, 'calories' => 320],
-            ['name' => 'Pide', 'description' => 'Kıymalı pide', 'price' => 40.00, 'is_available' => true, 'calories' => 500],
-            ['name' => 'Mantı', 'description' => 'El açması mantı', 'price' => 35.00, 'is_available' => true, 'calories' => 600],
+            [
+                'name' => 'Tavuk Sote',
+                'description' => 'Sebzeli tavuk sote, taze baharatlar ile',
+                'calories' => 350,
+                'is_vegetarian' => false,
+                'is_hot' => true,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Izgara Köfte',
+                'description' => 'El yapımı ızgara köfte, özel baharatlar ile',
+                'calories' => 400,
+                'is_vegetarian' => false,
+                'is_hot' => true,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Sebzeli Güveç',
+                'description' => 'Fırında pişmiş mevsim sebzeleri güveç',
+                'calories' => 280,
+                'is_vegetarian' => true,
+                'is_hot' => true,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Karnıyarık',
+                'description' => 'Geleneksel kıymalı patlıcan yemeği',
+                'calories' => 320,
+                'is_vegetarian' => false,
+                'is_hot' => true,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Mantı',
+                'description' => 'El açması mantı, yoğurt ve domates sos ile',
+                'calories' => 450,
+                'is_vegetarian' => false,
+                'is_hot' => true,
+                'is_active' => true
+            ]
         ];
 
         foreach ($mainDishes as $dish) {
@@ -46,11 +80,38 @@ class FoodSeeder extends Seeder
 
         // Side Dishes
         $sideDishes = [
-            ['name' => 'Pilav', 'description' => 'Tereyağlı pilav', 'price' => 15.00, 'is_available' => true, 'calories' => 200],
-            ['name' => 'Makarna', 'description' => 'Domates soslu makarna', 'price' => 15.00, 'is_available' => true, 'calories' => 220],
-            ['name' => 'Patates Kızartması', 'description' => 'Çıtır patates kızartması', 'price' => 20.00, 'is_available' => true, 'calories' => 300],
-            ['name' => 'Bulgur Pilavı', 'description' => 'Domatesli bulgur pilavı', 'price' => 15.00, 'is_available' => true, 'calories' => 180],
-            ['name' => 'Mercimek Çorbası', 'description' => 'Geleneksel mercimek çorbası', 'price' => 15.00, 'is_available' => true, 'calories' => 120],
+            [
+                'name' => 'Pirinç Pilavı',
+                'description' => 'Tereyağlı pirinç pilavı',
+                'calories' => 200,
+                'is_vegetarian' => true,
+                'is_hot' => true,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Fırın Patates',
+                'description' => 'Baharatlı fırın patates',
+                'calories' => 180,
+                'is_vegetarian' => true,
+                'is_hot' => true,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Sebzeli Bulgur Pilavı',
+                'description' => 'Sebzeli ve baharatlı bulgur pilavı',
+                'calories' => 220,
+                'is_vegetarian' => true,
+                'is_hot' => true,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Zeytinyağlı Fasulye',
+                'description' => 'Zeytinyağlı taze fasulye',
+                'calories' => 150,
+                'is_vegetarian' => true,
+                'is_hot' => false,
+                'is_active' => true
+            ]
         ];
 
         foreach ($sideDishes as $dish) {
@@ -59,11 +120,38 @@ class FoodSeeder extends Seeder
 
         // Desserts
         $desserts = [
-            ['name' => 'Sütlaç', 'description' => 'Fırın sütlaç', 'price' => 20.00, 'is_available' => true, 'calories' => 180],
-            ['name' => 'Kazandibi', 'description' => 'Geleneksel kazandibi', 'price' => 20.00, 'is_available' => true, 'calories' => 200],
-            ['name' => 'Baklava', 'description' => 'Fıstıklı baklava', 'price' => 25.00, 'is_available' => true, 'calories' => 250],
-            ['name' => 'Künefe', 'description' => 'Antep fıstıklı künefe', 'price' => 30.00, 'is_available' => true, 'calories' => 350],
-            ['name' => 'Dondurma', 'description' => 'Çeşitli dondurma', 'price' => 15.00, 'is_available' => true, 'calories' => 100],
+            [
+                'name' => 'Sütlaç',
+                'description' => 'Fırında pişmiş geleneksel sütlaç',
+                'calories' => 280,
+                'is_vegetarian' => true,
+                'is_hot' => true,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Kazandibi',
+                'description' => 'Geleneksel kazandibi tatlısı',
+                'calories' => 320,
+                'is_vegetarian' => true,
+                'is_hot' => false,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Baklava',
+                'description' => 'Antep fıstıklı baklava',
+                'calories' => 420,
+                'is_vegetarian' => true,
+                'is_hot' => false,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Kemalpaşa',
+                'description' => 'Şerbetli kemalpaşa tatlısı',
+                'calories' => 350,
+                'is_vegetarian' => true,
+                'is_hot' => true,
+                'is_active' => true
+            ]
         ];
 
         foreach ($desserts as $dessert) {
@@ -72,11 +160,38 @@ class FoodSeeder extends Seeder
 
         // Salads
         $salads = [
-            ['name' => 'Çoban Salata', 'description' => 'Klasik çoban salata', 'price' => 15.00, 'is_available' => true, 'calories' => 60],
-            ['name' => 'Mevsim Salata', 'description' => 'Mevsim yeşillikleri', 'price' => 15.00, 'is_available' => true, 'calories' => 55],
-            ['name' => 'Akdeniz Salata', 'description' => 'Akdeniz usulü salata', 'price' => 20.00, 'is_available' => true, 'calories' => 70],
-            ['name' => 'Roka Salata', 'description' => 'Roka ve parmesan salata', 'price' => 20.00, 'is_available' => true, 'calories' => 65],
-            ['name' => 'Sezar Salata', 'description' => 'Tavuklu sezar salata', 'price' => 25.00, 'is_available' => true, 'calories' => 250],
+            [
+                'name' => 'Çoban Salata',
+                'description' => 'Domates, salatalık, biber ve soğan ile klasik çoban salata',
+                'calories' => 120,
+                'is_vegetarian' => true,
+                'is_hot' => false,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Mevsim Salata',
+                'description' => 'Mevsim yeşillikleri ile hazırlanan salata',
+                'calories' => 100,
+                'is_vegetarian' => true,
+                'is_hot' => false,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Roka Salata',
+                'description' => 'Roka, cherry domates ve parmesan peyniri ile',
+                'calories' => 130,
+                'is_vegetarian' => true,
+                'is_hot' => false,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Ton Balıklı Salata',
+                'description' => 'Ton balığı, mısır ve yeşillikler ile',
+                'calories' => 220,
+                'is_vegetarian' => false,
+                'is_hot' => false,
+                'is_active' => true
+            ]
         ];
 
         foreach ($salads as $salad) {
@@ -85,11 +200,38 @@ class FoodSeeder extends Seeder
 
         // Beverages
         $beverages = [
-            ['name' => 'Ayran', 'description' => 'Soğuk ayran', 'price' => 10.00, 'is_available' => true, 'calories' => 60],
-            ['name' => 'Kola', 'description' => 'Soğuk kola', 'price' => 15.00, 'is_available' => true, 'calories' => 140],
-            ['name' => 'Su', 'description' => 'Şişe su', 'price' => 5.00, 'is_available' => true, 'calories' => 0],
-            ['name' => 'Çay', 'description' => 'Sıcak çay', 'price' => 5.00, 'is_available' => true, 'calories' => 2],
-            ['name' => 'Türk Kahvesi', 'description' => 'Geleneksel Türk kahvesi', 'price' => 15.00, 'is_available' => true, 'calories' => 15],
+            [
+                'name' => 'Ayran',
+                'description' => 'Taze ayran',
+                'calories' => 60,
+                'is_vegetarian' => true,
+                'is_hot' => false,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Türk Kahvesi',
+                'description' => 'Geleneksel Türk kahvesi',
+                'calories' => 5,
+                'is_vegetarian' => true,
+                'is_hot' => true,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Çay',
+                'description' => 'Demlik çay',
+                'calories' => 0,
+                'is_vegetarian' => true,
+                'is_hot' => true,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Limonata',
+                'description' => 'Taze sıkılmış limonata',
+                'calories' => 80,
+                'is_vegetarian' => true,
+                'is_hot' => false,
+                'is_active' => true
+            ]
         ];
 
         foreach ($beverages as $beverage) {
@@ -98,11 +240,38 @@ class FoodSeeder extends Seeder
 
         // Soups
         $soups = [
-            ['name' => 'Mercimek Çorbası', 'description' => 'Geleneksel mercimek çorbası', 'price' => 15.00, 'is_available' => true, 'calories' => 120],
-            ['name' => 'Ezogelin Çorbası', 'description' => 'Geleneksel ezogelin çorbası', 'price' => 15.00, 'is_available' => true, 'calories' => 130],
-            ['name' => 'Yayla Çorbası', 'description' => 'Yoğurtlu yayla çorbası', 'price' => 15.00, 'is_available' => true, 'calories' => 110],
-            ['name' => 'Tavuk Suyu Çorbası', 'description' => 'Tavuk suyu çorbası', 'price' => 15.00, 'is_available' => true, 'calories' => 90],
-            ['name' => 'Düğün Çorbası', 'description' => 'Geleneksel düğün çorbası', 'price' => 15.00, 'is_available' => true, 'calories' => 140],
+            [
+                'name' => 'Mercimek Çorbası',
+                'description' => 'Geleneksel kırmızı mercimek çorbası',
+                'calories' => 180,
+                'is_vegetarian' => true,
+                'is_hot' => true,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Ezogelin Çorbası',
+                'description' => 'Geleneksel ezogelin çorbası',
+                'calories' => 200,
+                'is_vegetarian' => true,
+                'is_hot' => true,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Tavuk Çorbası',
+                'description' => 'Sebzeli tavuk çorbası',
+                'calories' => 160,
+                'is_vegetarian' => false,
+                'is_hot' => true,
+                'is_active' => true
+            ],
+            [
+                'name' => 'Yayla Çorbası',
+                'description' => 'Yoğurtlu yayla çorbası',
+                'calories' => 170,
+                'is_vegetarian' => true,
+                'is_hot' => true,
+                'is_active' => true
+            ]
         ];
 
         foreach ($soups as $soup) {

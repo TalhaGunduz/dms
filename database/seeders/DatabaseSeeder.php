@@ -46,26 +46,13 @@ class DatabaseSeeder extends Seeder
 
         Schema::enableForeignKeyConstraints();
 
-        // Blokları ekle (eğer yoksa)
-        if (DB::table('blocks')->count() === 0) {
-            DB::table('blocks')->insert([
-                ['name' => 'A', 'created_at' => now(), 'updated_at' => now()],
-                ['name' => 'B', 'created_at' => now(), 'updated_at' => now()],
-                ['name' => 'C', 'created_at' => now(), 'updated_at' => now()],
-            ]);
-        }
-
-        // Sıralı bir şekilde seeder'ları çalıştır
+        // Sadece gerekli seed'ler çağrılıyor
         $this->call([
-            RoleSeeder::class,        // Önce rolleri oluştur
-            PermissionSeeder::class,  // Sonra izinleri oluştur
-            UserSeeder::class,        // Kullanıcıları oluştur
-            BlockSeeder::class,       // Blokları oluştur
-            RoomSeeder::class,        // Odaları oluştur
-            StudentSeeder::class,     // Öğrencileri oluştur
-            PaymentTypeSeeder::class, // Ödeme tiplerini oluştur
-            PaymentItemSeeder::class, // Ödeme kalemlerini oluştur
-            FoodSeeder::class,        // Yemek menüsünü oluştur
+            FoodSeeder::class,
+            BlockSeeder::class,
+            PaymentTypeSeeder::class,
+            PaymentItemSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

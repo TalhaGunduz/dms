@@ -66,18 +66,15 @@ class FoodController extends Controller
             'description' => 'nullable|string',
             'calories' => 'required|integer|min:0|max:2000',
             'image' => 'nullable|image|max:2048',
-            'is_vegetarian' => 'boolean',
-            'is_hot' => 'boolean',
-            'is_active' => 'boolean'
         ]);
 
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('foods', 'public');
         }
 
-        $validated['is_vegetarian'] = $request->has('is_vegetarian');
-        $validated['is_hot'] = $request->has('is_hot');
-        $validated['is_active'] = $request->has('is_active');
+        $validated['is_vegetarian'] = $request->boolean('is_vegetarian');
+        $validated['is_hot'] = $request->boolean('is_hot');
+        $validated['is_active'] = $request->boolean('is_active');
 
         $model = $this->modelMap[$type];
         $model::create($validated);

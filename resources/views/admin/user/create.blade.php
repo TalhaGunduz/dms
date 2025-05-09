@@ -66,8 +66,9 @@
                     @endif
 
                     <!--begin::Form-->
-                    <form class="form" action="{{ route('admin.' . $model . '.store') }}" method="POST">
+                    <form class="form" action="{{ route('admin.' . $model . '.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        
                         <!--begin::Input group-->
                         <div class="fv-row mb-10">
                             <!--begin::Label-->
@@ -97,6 +98,7 @@
                                 class="form-control">
                         </div>
                         <!--end::Input group-->
+
                         <!--begin::Actions-->
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary">
@@ -106,27 +108,27 @@
                         </div>
                         <!--end::Actions-->
                     </form>
-                    <!--end::F
-                                    </div>
-                                    <!--end::Card body-->
+                    <!--end::Form-->
                 </div>
-                <!--end::Card-->
+                <!--end::Card body-->
             </div>
-            <!--end::Content container-->
+            <!--end::Card-->
         </div>
-        <!--end::Content-->
-    @endsection
+        <!--end::Content container-->
+    </div>
+    <!--end::Content-->
+@endsection
 
-    @section('script')
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-
+@section('script')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
             });
-        </script>
-    @endsection
+
+
+        });
+    </script>
+@endsection

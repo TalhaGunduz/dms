@@ -26,7 +26,8 @@ class User extends Authenticatable
         'password',
         'phone',
         'status',
-        'email_verified_at'
+        'email_verified_at',
+        'avatar'
     ];
 
     /**
@@ -48,6 +49,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    protected $appends = ['avatar_url'];
 
     /**
      * The roles that belong to the user.
@@ -106,5 +109,13 @@ class User extends Authenticatable
             ->pluck('name')
             ->unique()
             ->toArray();
+    }
+
+    public function getAvatarUrlAttribute()
+    {
+        if ($this->avatar) {
+            return asset('storage/avatars/' . $this->avatar);
+        }
+        return asset('assets/media/avatars/admin-avatar.png');
     }
 }

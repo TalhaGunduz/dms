@@ -67,7 +67,7 @@
 
                     <!--begin::Form-->
                     <form class="form" action="{{ route('admin.' . $model . '.update', ['id' => $data->id]) }}"
-                        method="POST">
+                        method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <!--begin::Input group-->
@@ -108,17 +108,16 @@
                                 <label class="required form-label">Ürün Durum:</label>
                                 <!--end::Label-->
                                 <!--begin::Select2-->
-                                <select class="form-select mb-2" name="status" data-control="select2" data-hide-search="true" data-placeholder="Durum seçin">
-                                    <option value=""></option>
-                                    <option value="1" {{ $data->status == 1 ? 'selected' : '' }}>Aktif</option>
-                                    <option value="0" {{ $data->status == 0 ? 'selected' : '' }}>Pasif</option>
+                                <select class="form-select mb-2" name="status" data-control="select2" data-hide-search="true" data-placeholder="Durum seçin" required>
+                                    <option value="active" {{ $data->status == 'active' ? 'selected' : '' }}>Aktif</option>
+                                    <option value="passive" {{ $data->status == 'passive' ? 'selected' : '' }}>Pasif</option>
                                 </select>
                                 <!--end::Select2-->
                             </div>
                             <!--end::Input group-->
                         </div>
                         <!--end::Durum-->
-                      
+
                         <!--begin::Actions-->
                         <div class="text-center">
                             <button type="submit" class="btn btn-warning">
@@ -128,27 +127,25 @@
                         </div>
                         <!--end::Actions-->
                     </form>
-                    <!--end::F
-                                        </div>
-                                        <!--end::Card body-->
+                    <!--end::Form-->
                 </div>
-                <!--end::Card-->
+                <!--end::Card body-->
             </div>
-            <!--end::Content container-->
+            <!--end::Card-->
         </div>
-        <!--end::Content-->
-    @endsection
+        <!--end::Content container-->
+    </div>
+    <!--end::Content-->
+@endsection
 
-    @section('script')
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-
+@section('script')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
             });
-        </script>
-    @endsection
+        });
+    </script>
+@endsection

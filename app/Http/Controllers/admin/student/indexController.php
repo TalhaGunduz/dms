@@ -138,7 +138,6 @@ class IndexController extends Controller
             'school' => $all['school'],
             'department' => $all['department'],
             'phone' => $all['phone'],
-            'room_id' => $all['room_id'] ?? null,
             'email' => $all['email'],
             'status' => $all['status'],
             'password' => Hash::make($all['password']),
