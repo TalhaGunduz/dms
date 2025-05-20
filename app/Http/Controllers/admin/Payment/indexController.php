@@ -15,7 +15,17 @@ class indexController extends Controller
     public function index()
     {
         $payments = Payment::with(['paymentType', 'paymentItem', 'payer', 'receipt'])->latest()->get();
-        return view('admin.payment.index', compact('payments'));
+        
+        // Bu ayki onaylanmış ödemelerin toplam tutarı
+        $currentMonthApprovedTotal = Payment::where('status', 'approved')
+            ->whereMonth('payment_date', now()->month)
+            ->whereYear('payment_date', now()->year)
+            ->sum('amount');
+            
+        // Bekleyen ödemelerin sayısı
+        $pendingPaymentsCount = Payment::where('status', 'pending')->count();
+        
+        return view('admin.payment.index', compact('payments', 'currentMonthApprovedTotal', 'pendingPaymentsCount'));
     }
 
     public function create()

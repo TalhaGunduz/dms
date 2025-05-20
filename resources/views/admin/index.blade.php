@@ -69,9 +69,11 @@
                         <i class="fa fa-credit-card fs-2x text-danger"></i>
                     </span>
                 </span>
-                <span class="fs-2hx fw-bold text-dark">{{ \App\Models\Payment::whereMonth('created_at', now()->month)->sum('amount') }} ₺</span>
+                <span class="fs-2hx fw-bold text-dark">{{ \App\Models\Payment::where('status', 'approved')->whereMonth('payment_date', now()->month)->whereYear('payment_date', now()->year)->sum('amount') }} ₺</span>
                 <div class="text-muted fw-semibold">Bu Ayki Ödemeler</div>
-                <span class="badge badge-light-danger mt-2">Ödenen: {{ \App\Models\Payment::whereMonth('created_at', now()->month)->where('status', 'paid')->count() }}</span>
+                <a href="{{ route('admin.payment.index') }}" class="text-decoration-none">
+                    <span class="badge badge-light-danger mt-2 fs-6 fw-bold">Bekleyen: {{ \App\Models\Payment::where('status', 'pending')->count() }}</span>
+                </a>
             </div>
         </div>
     </div>
