@@ -51,6 +51,16 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
         
+        // Quick Notes
+        Route::get('/notes', function () {
+            return view('admin.notes');
+        })->name('notes');
+
+        // Task Manager
+        Route::get('/tasks', function () {
+            return view('admin.tasks');
+        })->name('tasks');
+
         // User Management
         Route::prefix('user')->name('user.')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('index');
