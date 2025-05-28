@@ -1,0 +1,1657 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Anamakine: localhost:8889
+-- Üretim Zamanı: 20 May 2025, 15:04:07
+-- Sunucu sürümü: 5.7.39
+-- PHP Sürümü: 7.4.33
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Veritabanı: `DMS`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `beverages`
+--
+
+CREATE TABLE `beverages` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `calories` int(11) NOT NULL DEFAULT '0',
+  `is_vegetarian` tinyint(1) NOT NULL DEFAULT '1',
+  `is_hot` tinyint(1) NOT NULL DEFAULT '0',
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `beverages`
+--
+
+INSERT INTO `beverages` (`id`, `name`, `description`, `calories`, `is_vegetarian`, `is_hot`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Ayran', 'Taze ayran', 60, 1, 0, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(2, 'Türk Kahvesi', 'Geleneksel Türk kahvesi', 5, 1, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(3, 'Çay', 'Demlik çay', 0, 1, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(4, 'Limonata', 'Taze sıkılmış limonata', 80, 1, 0, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `blocks`
+--
+
+CREATE TABLE `blocks` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `blocks`
+--
+
+INSERT INTO `blocks` (`id`, `name`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'A', 'A Block - Male Students', '2025-05-09 11:20:30', '2025-05-09 11:20:30'),
+(2, 'B', 'B Block - Female Students', '2025-05-09 11:20:30', '2025-05-09 11:20:30'),
+(3, 'C', 'C Block - Staff and Visitors', '2025-05-09 11:20:30', '2025-05-09 11:20:30');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `cache`
+--
+
+CREATE TABLE `cache` (
+  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expiration` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `cache`
+--
+
+INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+('laravel_cache_avatar_0a8924c796dd373c756ad53dfa48e716', 's:2042:\"data:image/png;base64,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\";', 1747838759),
+('laravel_cache_avatar_0bbe508766773125d3548d0c13e505a8', 's:3262:\"data:image/png;base64,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\";', 1747838760),
+('laravel_cache_avatar_26c05fdf38ffeb593ea8962fe44ae458', 's:2634:\"data:image/png;base64,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\";', 1747838760),
+('laravel_cache_avatar_2d3d7c4b4d4fd6a4fa27bd5556340dbd', 's:2278:\"data:image/png;base64,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\";', 1747838759),
+('laravel_cache_avatar_4796d64269332f324d1c56726f1b6dae', 's:2254:\"data:image/png;base64,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\";', 1747838759),
+('laravel_cache_avatar_7f2ea1962d21c8d4ef4d025ef764fa57', 's:2954:\"data:image/png;base64,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\";', 1747838759),
+('laravel_cache_avatar_87285c6d449218752bd89f923e7afb03', 's:3034:\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAIhUlEQVR4nO2de0xb1x3HvzZgG4jBOFDCKxBgimkDZEDCIzwTRZG2pQnSpLWZtHVr10lVOlWTImVtUTJ1i9pNnSJVWjVV+2fZQ9NUNVLVrWqVrqGATdIQCIEm2boSAjaB4PAwNdjG3h+REfeea/u+7wXO5y/uz/fec/l9/DvnnuOXIRKJgKIfkrW+AKEcvdgp+Bn0/vH3DEpcixIY9FwhYpLPF71K0pUQJQUkQi+CdCFESxFstBajmRA9SYiFFnJUF7IRRLBRU4xRrYaAjSkDUPe6VamQjSqCC6WrRVEhm0kEG6XEKCJkM4tgI7cYVccQSmJkrZCtVBls5KoU2SpkK8sA5Pv/ZRGy1WVEkSMPkoVQGUyk5kOSECqDGyl5ES2EyoiP2PyIEkJl8ENMngQLoTKEITRfdGKoM3hPDGllSIfP5JFWiM7gJYRWhzzwySOtEJ2RUAitDnlJlE9aITojrhBaHcoQL68xhVAZyhIrv7TL0hmcQmh1qANXnmmF6AwqRGcQa1lKdVclGcV46+B5SecYW7iLFz95SaYr4qar4WXs37Ev7j6vuc7hytRV2dpcv8ZFK0RnMITQwVwb1uedVojOUO0zhmMLd3H0Yufa9vGyJ/Fs5Y/WtudW5vDW9d+jq+HltdhqeBU//PBZzAfm1bpMvOY6x9iuy63BmcYu1drXrEI6itoY2y53PwbuX4c/5F+LJRmT0FbUqvalacqaEDXHj2LrTpTaShmxHncfQpEQrt2/zoizxW1WovnXpEIO7uxgbC8GFnFjZhgA4HQ7GY+V28pQuK1AtWvTGk2EtBUyuyGnpx8RPCrQq/evIRgOMh7fKlUCaPDFAdU5VdieamfEeif71v72h/wYnrmJmtxvrsXaCltx4Yu/ytL+4/YK1OftR2X2HtgtdmSYrfAFfJhd9mLkwQj63C6Mer+QpS0xqC6ko6idse0L+DA4M8SIuTz9DCG56blw2Hfjlve26HbLbWV4vvI5VGx3EI9lWbKQZclCua0Mx8qfxC3vbbwz/Efcefgf0e2JxQioN6Cbk0xoym9gxPqnriIcCTNiTk8/EWOLFMJ3Sr+FN9t+wymDC4d9N37b+jo6y4+JblMMRy92RlQdQxrzGpGanMqIre+uosytzBHPzpaCAzAahF/uCcdT+GnVTwQfazQY8eM9z+D7FScEtykFVbss9uD8dfBrXJ8e5NzX5emHw757bdtqsqIut1bQol5jXgOednyPiAfDQXw09jG6J3owvngPy6FlZJitqLA70FHUjvq8/Wv7ltvKeLcnB6oJsZlt2PtYNSN2ZeoqQpEQ5/59bieeeeIHjFhHUTtvITazDS/VvEjEp5am8EvnrzDhm2TEvcsP0et2otftRHVOFU7vO4Vtpm282pIT1bqsjqI2otvoZc051uNZmsL4wj1GbP+OOqLLi8V3v9GJtJQ0RmzW78Wp7l8QMtgMzdzAq71nEFgN8GpLTlQU0s7Y9of8uHZ/IO4xLo+LsW1KMqE5vylhW6nJqThScoSI/+7aecytzCW+WABfzv8PF0b/wmtfOVFFSElGMXZlljBin0+RE0A2fW4XEWvnMUncm1MNS7KZEbsxM4wbD4YTX+w6PvjqX5hfWRB0jFRUGUPYSyUA0FLYjJbCZsHn2pP9BLZbtmN2eTbmPuyxCgA+vXdZcFvBcBAD0wOSbrmFoniFGGBAa0GLbOczGoxoT7ACXLAtn4iNzIqbfd/y3hF1nFgUF7L3sWpiqUQqibqtDFMGEfMue0W1tRBQt8tSXMhBBcq9JKMYJRnFMR9PTbYQsUBY3B1ThLVioDSKjiHmJBMa8phLJWJeBTy59wUcKTnMiLUVtmJs9ALn/r7gEhGzplhFvfKYabYJPkYKilbIgfwm4m5nYHpQcGIuT3QTsXjjyPwKef5S2y5BbUapWLdaoAZGQLnvfuK6O7k0fknweYYf3MSsnzkGZKdmozJ7D+f+dxfGiVh9gvdacWFOMqE2t0bwcWJ5//h7IlbreGK3ZKEqp5IR8wV86PeIe4NZ9+RnRCzW4M414Ty08xAyTZmC2jxefgxWk1XQMVJRTEhHUTuxVNI92RNz7SoR3ROkkOb8JiQbyGHw5uwIUVGWZDNO7fs5DODXGTxur8DTu8mFSaVRTAjXs/eT8X+LPt9/577EJGsNKi0lDfV5ZFcUjoTxt9t/J+LVOVU40/gq0lPS47bVkFePs01dSDImib5esSgiZFfmLuK2dNI3idsPpU2yuid6iFisWfRHYx9jZHaUiNfm1uCdw2/jhOMplNvKkJ6SDqPBCLslC80FB3C2sQuv1J/mvYgpN4w3W4t95fDwzkP4Wc1JQccMTg+hq+9s3H2Oln4bz1c9J+i8//zqQ7w99AcAQHpKOl5v+XXcOUs8VsOrcHr60VwQf0HzH3fexZ9G/yyqjSjRG6tN/VbSpeASTn/2Cpwci5SJWA6t4NyVN0TdFUphUwsBHkk5d+UNvPn5ebh9Hl7HON0uvHDppKwfOeDLhvv9ELF8OnEZlye6UZdbi7odtaiwO2C32JGWkoqFlUXM+GcwOD2Ensle3F0k5zFqodoHdiixoR/Y0TGEEK1/P2Orwc43rRCdQYXoDE4htNtSB6480wrRGTGF0CpRllj5jVshVIoyxMsr7bJ0RkIhtErkJVE+aYXoDF5CaJXIA/0i5Q2I4N+goqvBwhHSw9AK0RmChdDxRBhC8yWqQqgUfojJk+gui0qJj9j8SBpDqBRupORF8qBOpTCRmg9Z7rKolEfIkQfZbnu3uhS5/n/6890SoT/fvclRpEKibOZKUaqLVlRIlM0kRumxUhUhUTayGLVuWlQdQzbqnZia161qhaxnI1SLFk8gzYSsR09ytK5iXQiJoqUYrUVE0ZUQNkoK0osANroWwoUYSXpNPhf/B5EEFcaqZjJAAAAAAElFTkSuQmCC\";', 1747838454),
+('laravel_cache_avatar_8c916095b6fb6377b7d71770a94f5e0a', 's:2254:\"data:image/png;base64,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\";', 1747838759),
+('laravel_cache_avatar_be887c2a6abd6a0c06e51ec001b859ee', 's:3034:\"data:image/png;base64,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\";', 1747838454),
+('laravel_cache_avatar_d56e5c0a8b319cfd75dbcf833476dc00', 's:2702:\"data:image/png;base64,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\";', 1747838759),
+('laravel_cache_avatar_d92f8917f3493e5abbc33c94738e81f1', 's:2234:\"data:image/png;base64,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\";', 1747838759);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `cache_locks`
+--
+
+CREATE TABLE `cache_locks` (
+  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expiration` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `daily_menus`
+--
+
+CREATE TABLE `daily_menus` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `menu_date` datetime NOT NULL,
+  `meal_type` enum('breakfast','lunch','dinner') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `soup_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `main_dish_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `side_dish_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `dessert_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `salad_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `beverage_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci,
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_by` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `daily_menus`
+--
+
+INSERT INTO `daily_menus` (`id`, `menu_date`, `meal_type`, `soup_id`, `main_dish_id`, `side_dish_id`, `dessert_id`, `salad_id`, `beverage_id`, `notes`, `is_active`, `created_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, '2025-05-10 00:00:00', 'lunch', 2, 1, 2, 2, 1, 1, 'taze', 1, 1, '2025-05-09 11:28:36', '2025-05-09 11:28:36', NULL),
+(2, '2025-05-12 00:00:00', 'lunch', 2, 3, 2, 3, 3, 4, 'Taze Yemek', 1, 1, '2025-05-09 11:29:03', '2025-05-09 11:29:03', NULL),
+(3, '2025-04-21 00:00:00', 'dinner', 1, 6, 2, 2, 3, 2, 'eqw', 1, 1, '2025-05-09 12:51:08', '2025-05-09 12:51:08', NULL),
+(4, '2025-05-11 00:00:00', 'lunch', 1, 2, 2, 1, 1, 1, 'Sacitin Menüsü', 0, 1, '2025-05-11 09:29:41', '2025-05-11 09:29:41', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `desserts`
+--
+
+CREATE TABLE `desserts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `calories` int(11) NOT NULL DEFAULT '0',
+  `is_vegetarian` tinyint(1) NOT NULL DEFAULT '0',
+  `is_hot` tinyint(1) NOT NULL DEFAULT '1',
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `desserts`
+--
+
+INSERT INTO `desserts` (`id`, `name`, `description`, `calories`, `is_vegetarian`, `is_hot`, `is_active`, `created_at`, `updated_at`, `deleted_at`, `status`) VALUES
+(1, 'Sütlaç', 'Fırında pişmiş geleneksel sütlaç', 280, 1, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL, 'active'),
+(2, 'Kazandibi', 'Geleneksel kazandibi tatlısı', 320, 1, 0, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL, 'active'),
+(3, 'Baklava', 'Antep fıstıklı baklava', 420, 1, 0, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL, 'active'),
+(4, 'Kemalpaşa', 'Şerbetli kemalpaşa tatlısı', 350, 1, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL, 'active');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `entry_rules`
+--
+
+CREATE TABLE `entry_rules` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `entry_time_start` time NOT NULL,
+  `entry_time_end` time NOT NULL,
+  `exit_time_start` time NOT NULL,
+  `exit_time_end` time NOT NULL,
+  `allowed_days` json DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `created_by` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `failed_jobs`
+--
+
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `jobs`
+--
+
+CREATE TABLE `jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attempts` tinyint(3) UNSIGNED NOT NULL,
+  `reserved_at` int(10) UNSIGNED DEFAULT NULL,
+  `available_at` int(10) UNSIGNED NOT NULL,
+  `created_at` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `job_batches`
+--
+
+CREATE TABLE `job_batches` (
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_jobs` int(11) NOT NULL,
+  `pending_jobs` int(11) NOT NULL,
+  `failed_jobs` int(11) NOT NULL,
+  `failed_job_ids` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `options` mediumtext COLLATE utf8mb4_unicode_ci,
+  `cancelled_at` int(11) DEFAULT NULL,
+  `created_at` int(11) NOT NULL,
+  `finished_at` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `main_dishes`
+--
+
+CREATE TABLE `main_dishes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `calories` int(11) NOT NULL DEFAULT '0',
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_vegetarian` tinyint(1) NOT NULL DEFAULT '0',
+  `is_hot` tinyint(1) NOT NULL DEFAULT '1',
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `main_dishes`
+--
+
+INSERT INTO `main_dishes` (`id`, `name`, `description`, `calories`, `image`, `is_vegetarian`, `is_hot`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Tavuk Sote', 'Sebzeli tavuk sote, taze baharatlar ile', 350, NULL, 0, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(2, 'Izgara Köfte', 'El yapımı ızgara köfte, özel baharatlar ile', 400, NULL, 0, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(3, 'Sebzeli Güveç', 'Fırında pişmiş mevsim sebzeleri güveç', 280, NULL, 1, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(4, 'Karnıyarık', 'Geleneksel kıymalı patlıcan yemeği', 320, NULL, 0, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(5, 'Mantı', 'El açması mantı, yoğurt ve domates sos ile', 450, NULL, 0, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(6, 'Orman Kebabı', '300 gr', 800, 'foods/HWS5yj6lOaoAtpktQE6JuuGqxLZbVkHURPpggwFT.webp', 0, 1, 1, '2025-05-09 12:50:33', '2025-05-09 12:50:33', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '0001_01_01_000000_create_users_table', 1),
+(2, '0001_01_01_000001_create_cache_table', 1),
+(3, '0001_01_01_000002_create_jobs_table', 1),
+(4, '2024_03_19_000000_create_food_tables', 1),
+(5, '2024_03_19_000001_create_daily_menus_table', 1),
+(6, '2024_03_19_000002_add_role_to_users_table', 1),
+(7, '2025_04_30_130326_create_blocks_table', 1),
+(8, '2025_04_30_130410_create_rooms_table', 1),
+(9, '2025_04_30_130720_create_students_table', 1),
+(10, '2025_05_03_143516_add_block_id_to_rooms_table', 1),
+(11, '2025_05_05_123154_create_student_room_table', 1),
+(12, '2025_05_05_123410_migrate_existing_student_room_relations', 1),
+(13, '2025_05_06_110205_create_roles_table', 1),
+(14, '2025_05_06_110229_create_user_roles_table', 1),
+(15, '2025_05_06_110236_create_permissions_table', 1),
+(16, '2025_05_06_110243_create_role_permissions_table', 1),
+(17, '2025_05_06_111545_create_personal_access_tokens_table', 1),
+(18, '2025_05_06_123221_add_description_to_blocks_table', 1),
+(19, '2025_05_07_160755_create_staff_roles_table', 1),
+(20, '2025_05_07_160755_create_staff_table', 1),
+(21, '2025_05_07_160756_create_staff_attendances_table', 1),
+(22, '2025_05_07_160756_create_staff_documents_table', 1),
+(23, '2025_05_07_160756_create_staff_qualifications_table', 1),
+(24, '2025_05_07_160756_create_staff_schedules_table', 1),
+(25, '2025_05_07_163605_create_transfers_table', 1),
+(26, '2025_05_07_164358_add_role_id_to_staff_table', 1),
+(27, '2025_05_07_170256_add_day_of_week_to_staff_schedules_table', 1),
+(28, '2025_05_07_170717_add_break_times_to_staff_schedules_table', 1),
+(29, '2025_05_07_171157_modify_day_of_week_in_staff_schedules_table', 1),
+(30, '2025_05_07_171401_remove_date_from_staff_schedules_table', 1),
+(31, '2025_05_07_173936_add_status_to_staff_schedules_table', 1),
+(32, '2025_05_07_174308_add_notes_to_staff_qualifications_table', 1),
+(33, '2025_05_07_174616_add_notes_to_staff_documents_table', 1),
+(34, '2025_05_08_000001_create_payment_types_table', 1),
+(35, '2025_05_08_000002_create_payment_items_table', 1),
+(36, '2025_05_08_000003_create_payments_table', 1),
+(37, '2025_05_08_000004_create_payment_receipts_table', 1),
+(38, '2025_05_09_000001_create_student_entries_table', 1),
+(39, '2025_05_09_000002_create_entry_rules_table', 1),
+(40, '2025_05_09_000003_create_student_permissions_table', 1),
+(41, '2024_03_19_000004_add_status_to_rooms_table', 2),
+(42, '2024_03_20_000000_add_avatar_to_users_table', 3),
+(43, '2025_05_08_185254_add_columns_to_desserts_table', 4),
+(44, '2025_05_09_152239_add_avatar_to_users_table', 5),
+(45, '2025_05_09_154604_add_image_to_main_dishes_table', 5),
+(46, '2025_05_12_113813_update_transfers_table_make_from_room_id_nullable', 6),
+(47, '2025_05_12_114107_update_transfers_table_make_from_room_id_nullable', 6);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `password_reset_tokens`
+--
+
+CREATE TABLE `password_reset_tokens` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `payment_type_id` bigint(20) UNSIGNED NOT NULL,
+  `payment_item_id` bigint(20) UNSIGNED NOT NULL,
+  `payer_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payer_id` bigint(20) UNSIGNED NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `payment_date` date NOT NULL,
+  `due_date` date DEFAULT NULL,
+  `status` enum('pending','approved','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `notes` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `payments`
+--
+
+INSERT INTO `payments` (`id`, `payment_type_id`, `payment_item_id`, `payer_type`, `payer_id`, `amount`, `payment_date`, `due_date`, `status`, `notes`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 'App\\Models\\Student', 1, '2000.00', '2025-05-09', '2025-05-12', 'cancelled', '1', '2025-05-09 11:23:37', '2025-05-12 06:12:06', NULL),
+(2, 3, 1, 'App\\Models\\Student', 5, '77000.00', '2025-05-11', '2025-06-25', 'approved', NULL, '2025-05-11 09:27:28', '2025-05-12 05:58:16', NULL),
+(3, 1, 5, 'App\\Models\\Student', 1, '43243.00', '2025-05-12', NULL, 'pending', 'dsfsd', '2025-05-12 07:15:47', '2025-05-12 07:15:47', NULL),
+(4, 1, 1, 'App\\Models\\Student', 6, '7000.00', '2025-05-20', NULL, 'pending', NULL, '2025-05-20 09:45:02', '2025-05-20 09:45:02', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `payment_items`
+--
+
+CREATE TABLE `payment_items` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `amount` decimal(10,2) NOT NULL,
+  `payment_type_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `payment_items`
+--
+
+INSERT INTO `payment_items` (`id`, `name`, `description`, `amount`, `payment_type_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Monthly Room Fee', 'Standard monthly room fee', '2500.00', 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(2, 'Security Deposit', 'Refundable security deposit', '1000.00', 2, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(3, 'Monthly Meal Plan - Standard', 'Standard meal plan with 3 meals per day', '1500.00', 3, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(4, 'Late Payment Fee - Standard', 'Standard late payment fee', '250.00', 5, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(5, 'Damage Fee - Minor', 'Fee for minor damages', '500.00', 4, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(6, 'Damage Fee - Major', 'Fee for major damages', '1500.00', 4, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `payment_receipts`
+--
+
+CREATE TABLE `payment_receipts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `payment_id` bigint(20) UNSIGNED NOT NULL,
+  `receipt_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bank_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `account_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `receipt_date` date NOT NULL,
+  `receipt_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `verified_by` bigint(20) UNSIGNED DEFAULT NULL,
+  `verification_date` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `payment_receipts`
+--
+
+INSERT INTO `payment_receipts` (`id`, `payment_id`, `receipt_number`, `bank_name`, `account_number`, `receipt_date`, `receipt_image`, `verified_by`, `verification_date`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, '01', NULL, NULL, '2025-05-09', 'receipts/RnlbHLWCluyMu9kmjpcuszkaA2Da02kjAihPqMpw.png', 1, '2025-05-09 11:23:37', '2025-05-09 11:23:37', '2025-05-09 11:23:37', NULL),
+(2, 2, '02', NULL, NULL, '2025-05-11', NULL, 1, '2025-05-11 09:27:28', '2025-05-11 09:27:28', '2025-05-11 09:27:28', NULL),
+(3, 3, '3r2erwqe', NULL, NULL, '2025-05-12', 'receipts/gjQr6j0T4aIMVC7JZWx8NKKTansQ2kNDkCBULhWQ.png', 1, '2025-05-12 07:15:47', '2025-05-12 07:15:47', '2025-05-12 07:15:47', NULL),
+(4, 4, '0002', NULL, NULL, '2025-05-20', NULL, 1, '2025-05-20 09:45:02', '2025-05-20 09:45:02', '2025-05-20 09:45:02', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `payment_types`
+--
+
+CREATE TABLE `payment_types` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `is_recurring` tinyint(1) NOT NULL DEFAULT '0',
+  `recurring_period` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `payment_types`
+--
+
+INSERT INTO `payment_types` (`id`, `name`, `description`, `is_recurring`, `recurring_period`, `created_at`, `updated_at`) VALUES
+(1, 'Room Fee', 'Monthly room fee payment', 1, 'monthly', '2025-05-09 11:20:30', '2025-05-09 11:20:30'),
+(2, 'Deposit', 'One-time security deposit', 0, NULL, '2025-05-09 11:20:30', '2025-05-09 11:20:30'),
+(3, 'Meal Plan', 'Monthly meal plan payment', 1, 'monthly', '2025-05-09 11:20:30', '2025-05-09 11:20:30'),
+(4, 'Damage Fee', 'One-time payment for damages', 0, NULL, '2025-05-09 11:20:30', '2025-05-09 11:20:30'),
+(5, 'Late Payment Fee', 'Fee for late payments', 0, NULL, '2025-05-09 11:20:30', '2025-05-09 11:20:30');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `permissions`
+--
+
+CREATE TABLE `permissions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `personal_access_tokens`
+--
+
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `role_permissions`
+--
+
+CREATE TABLE `role_permissions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL,
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `rooms`
+--
+
+CREATE TABLE `rooms` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `block_id` bigint(20) UNSIGNED NOT NULL,
+  `number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `capacity` int(10) UNSIGNED NOT NULL DEFAULT '5',
+  `current_students` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'available',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `rooms`
+--
+
+INSERT INTO `rooms` (`id`, `block_id`, `number`, `capacity`, `current_students`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, '101', 5, 0, 'available', NULL, NULL),
+(2, 1, '102', 5, 0, 'available', '2025-05-09 11:21:08', '2025-05-09 11:21:08'),
+(3, 1, '103', 5, 0, 'available', '2025-05-09 11:21:14', '2025-05-09 11:21:14'),
+(4, 2, '201', 5, 0, 'available', '2025-05-09 11:21:20', '2025-05-09 11:21:20'),
+(5, 2, '202', 5, 0, 'available', '2025-05-09 11:21:29', '2025-05-09 11:21:29'),
+(6, 2, '203', 5, 0, 'available', '2025-05-09 11:21:36', '2025-05-09 11:21:36'),
+(7, 3, '301', 5, 0, 'available', '2025-05-09 11:21:41', '2025-05-09 11:21:41'),
+(8, 3, '302', 5, 0, 'available', '2025-05-09 11:21:49', '2025-05-09 11:21:49');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `salads`
+--
+
+CREATE TABLE `salads` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `calories` int(11) NOT NULL DEFAULT '0',
+  `is_vegetarian` tinyint(1) NOT NULL DEFAULT '0',
+  `is_hot` tinyint(1) NOT NULL DEFAULT '0',
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `salads`
+--
+
+INSERT INTO `salads` (`id`, `name`, `description`, `calories`, `is_vegetarian`, `is_hot`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Çoban Salata', 'Domates, salatalık, biber ve soğan ile klasik çoban salata', 120, 1, 0, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(2, 'Mevsim Salata', 'Mevsim yeşillikleri ile hazırlanan salata', 100, 1, 0, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(3, 'Roka Salata', 'Roka, cherry domates ve parmesan peyniri ile', 130, 1, 0, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(4, 'Ton Balıklı Salata', 'Ton balığı, mısır ve yeşillikler ile', 220, 0, 0, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_agent` text COLLATE utf8mb4_unicode_ci,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_activity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `sessions`
+--
+
+INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+('iBJvYv3bqyCZlPRQIwCEt8BygiGnMd7zstf69noy', 1, '127.0.0.1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:138.0) Gecko/20100101 Firefox/138.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiVzV4Mk9nVU9VakxyMVdGUGJpTWd6c3l5QXZIOG1DTUxZVGZ4OTcyQiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9tZW51Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjU6ImFsZXJ0IjthOjA6e319', 1747752368);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `side_dishes`
+--
+
+CREATE TABLE `side_dishes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `calories` int(11) NOT NULL DEFAULT '0',
+  `is_vegetarian` tinyint(1) NOT NULL DEFAULT '0',
+  `is_hot` tinyint(1) NOT NULL DEFAULT '1',
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `side_dishes`
+--
+
+INSERT INTO `side_dishes` (`id`, `name`, `description`, `calories`, `is_vegetarian`, `is_hot`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Pirinç Pilavı', 'Tereyağlı pirinç pilavı', 200, 1, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(2, 'Fırın Patates', 'Baharatlı fırın patates', 180, 1, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(3, 'Sebzeli Bulgur Pilavı', 'Sebzeli ve baharatlı bulgur pilavı', 220, 1, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(4, 'Zeytinyağlı Fasulye', 'Zeytinyağlı taze fasulye', 150, 1, 0, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `soups`
+--
+
+CREATE TABLE `soups` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `calories` int(11) NOT NULL DEFAULT '0',
+  `is_vegetarian` tinyint(1) NOT NULL DEFAULT '0',
+  `is_hot` tinyint(1) NOT NULL DEFAULT '1',
+  `is_active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `soups`
+--
+
+INSERT INTO `soups` (`id`, `name`, `description`, `calories`, `is_vegetarian`, `is_hot`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Mercimek Çorbası', 'Geleneksel kırmızı mercimek çorbası', 180, 1, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(2, 'Ezogelin Çorbası', 'Geleneksel ezogelin çorbası', 200, 1, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(3, 'Tavuk Çorbası', 'Sebzeli tavuk çorbası', 160, 0, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(4, 'Yayla Çorbası', 'Yoğurtlu yayla çorbası', 170, 1, 1, 1, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `staff`
+--
+
+CREATE TABLE `staff` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `birth_date` date DEFAULT NULL,
+  `hire_date` date NOT NULL,
+  `position` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `department` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `salary` decimal(10,2) DEFAULT NULL,
+  `status` enum('active','inactive','on_leave') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
+  `role_id` bigint(20) UNSIGNED NOT NULL,
+  `emergency_contact_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `emergency_contact_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `staff`
+--
+
+INSERT INTO `staff` (`id`, `name`, `email`, `phone`, `address`, `birth_date`, `hire_date`, `position`, `department`, `salary`, `status`, `role_id`, `emergency_contact_name`, `emergency_contact_phone`, `notes`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'abuzer Kömürcü', 'abukor@gmail.com', '5435389531', 'isanbul/bağcılar', NULL, '2024-12-01', 'temizlikci', 'Temizlik', '34000.00', 'active', 1, NULL, NULL, NULL, '2025-05-09 11:25:32', '2025-05-09 11:25:32', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `staff_attendances`
+--
+
+CREATE TABLE `staff_attendances` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `staff_id` bigint(20) UNSIGNED NOT NULL,
+  `date` date NOT NULL,
+  `check_in` time DEFAULT NULL,
+  `check_out` time DEFAULT NULL,
+  `status` enum('present','absent','late','half_day','on_leave') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'present',
+  `notes` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `staff_attendances`
+--
+
+INSERT INTO `staff_attendances` (`id`, `staff_id`, `date`, `check_in`, `check_out`, `status`, `notes`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, '2025-01-12', '08:30:00', '18:00:00', 'present', 'başlandı', '2025-05-09 11:26:20', '2025-05-09 11:26:20', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `staff_documents`
+--
+
+CREATE TABLE `staff_documents` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `staff_id` bigint(20) UNSIGNED NOT NULL,
+  `document_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `document_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `file_path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci,
+  `issue_date` date DEFAULT NULL,
+  `expiry_date` date DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `staff_documents`
+--
+
+INSERT INTO `staff_documents` (`id`, `staff_id`, `document_type`, `document_number`, `file_path`, `notes`, `issue_date`, `expiry_date`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'Diploma', NULL, 'staff-documents/wSTUASFrEKdWlIEGYf7F5EQPyCrFX9xrXRNAlSD0.png', NULL, NULL, NULL, NULL, '2025-05-09 11:27:59', '2025-05-09 11:27:59', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `staff_qualifications`
+--
+
+CREATE TABLE `staff_qualifications` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `staff_id` bigint(20) UNSIGNED NOT NULL,
+  `degree` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `institution` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `field_of_study` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `graduation_year` year(4) NOT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci,
+  `grade` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `staff_qualifications`
+--
+
+INSERT INTO `staff_qualifications` (`id`, `staff_id`, `degree`, `institution`, `field_of_study`, `graduation_year`, `notes`, `grade`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'Ön Lisans', 'İstanbul Üniversitesi', 'İşletme', 2010, 'a', NULL, NULL, '2025-05-09 11:27:40', '2025-05-09 11:27:40', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `staff_roles`
+--
+
+CREATE TABLE `staff_roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `permissions` json DEFAULT NULL,
+  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `staff_roles`
+--
+
+INSERT INTO `staff_roles` (`id`, `name`, `slug`, `description`, `permissions`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'temizlik', 'temizlik', 'aaa', '[\"create_roles\"]', 'active', '2025-05-09 11:25:21', '2025-05-09 11:25:21', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `staff_schedules`
+--
+
+CREATE TABLE `staff_schedules` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `staff_id` bigint(20) UNSIGNED NOT NULL,
+  `day_of_week` enum('weekdays','monday','tuesday','wednesday','thursday','friday','saturday','sunday') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `break_start` time DEFAULT NULL,
+  `break_end` time DEFAULT NULL,
+  `status` enum('active','inactive') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
+  `shift_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci,
+  `is_approved` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `staff_schedules`
+--
+
+INSERT INTO `staff_schedules` (`id`, `staff_id`, `day_of_week`, `start_time`, `end_time`, `break_start`, `break_end`, `status`, `shift_type`, `notes`, `is_approved`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'monday', '08:00:00', '18:00:00', '12:30:00', '13:30:00', 'active', NULL, 'aa', 0, '2025-05-09 11:26:47', '2025-05-09 11:26:47', NULL),
+(2, 1, 'tuesday', '08:00:00', '18:00:00', '12:30:00', '13:30:00', 'active', NULL, 'aa', 0, '2025-05-09 11:26:47', '2025-05-09 11:26:47', NULL),
+(3, 1, 'wednesday', '08:00:00', '18:00:00', '12:30:00', '13:30:00', 'active', NULL, 'aa', 0, '2025-05-09 11:26:47', '2025-05-09 11:26:47', NULL),
+(4, 1, 'thursday', '08:00:00', '18:00:00', '12:30:00', '13:30:00', 'active', NULL, 'aa', 0, '2025-05-09 11:26:47', '2025-05-09 11:26:47', NULL),
+(5, 1, 'friday', '08:00:00', '18:00:00', '12:30:00', '13:30:00', 'active', NULL, 'aa', 0, '2025-05-09 11:26:47', '2025-05-09 11:26:47', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `students`
+--
+
+CREATE TABLE `students` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tc_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `surname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `birth_date` date NOT NULL,
+  `school` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `department` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `students`
+--
+
+INSERT INTO `students` (`id`, `tc_no`, `name`, `surname`, `birth_date`, `school`, `department`, `phone`, `email`, `status`, `password`, `created_at`, `updated_at`) VALUES
+(1, '30280852570', 'Talha', 'Gündüz', '2005-11-27', 'Biruni Üniversitesi', 'Bilgisayar Programcılığı', '0552 344 2341', 'talhagunduz07@gmail.com', 'active', '$2y$12$XoQwCmZv3NaFdZ8Ajpx82ebvvk.yljcXKePTOke6suGNXLWCUZpP.', '2025-05-09 11:22:20', '2025-05-09 11:22:20'),
+(2, '17756283212', 'Anıl Berk', 'Çetin', '1995-01-11', 'Biruni Üniversitesi', 'Bilgisayar Programcılığı', '+905425206695', 'anilberk@gmail.com', 'active', '$2y$12$MK9W51gzmAQLrM/TJCtoVuVRRInVC4r0HEHIyxS2eluKknFAGTK1m', '2025-05-09 11:37:47', '2025-05-09 11:37:47'),
+(3, '39658575424', 'Taha', 'Efendioğlu', '2006-02-17', 'Dokuz Eylül Üniversitesi', 'Yönetim Bilişim Sistemleri', '5511942044', 'thaefen@gmail.com', 'active', '$2y$12$4wkCv8kZnrHo8Y8KNXH3pe9wkjYFvJwwt/yfLGBEEJcFioFhwDMLi', '2025-05-09 11:38:58', '2025-05-10 07:46:29'),
+(4, '524141351132', 'Hakan', 'Ersoy', '2005-03-12', 'İstanbul Üniversitesi', 'iktisat', '5531591124', 'test@example.com', 'active', '$2y$12$xDJEpnBPIk1oNczfF8SyGuevZK58kJeJUAwC6xqodJP0SR3C.xaH.', '2025-05-09 11:40:17', '2025-05-09 11:40:17'),
+(5, '10550721052', 'Fatih', 'Aksakal', '2005-06-25', 'İstanbul Aydın Üniversitesi', 'Elektronik Teknolojisi', '5469675893', 'aksakalfatih27@gmail.com', 'active', '$2y$12$Cmbj/zOyRzWpkz5rY3Yb9egZ40LBFhT0UPyXC6RZIjC5H7nKLJpui', '2025-05-11 09:22:43', '2025-05-11 09:22:43'),
+(6, '1231312312', 'Hasan Sacit', 'Bıyıklıoğlu', '2005-04-06', 'Hacettepe Üniversitesi', 'iktisat', '05495938177', 'skyzuky@gmail.com', 'active', '$2y$12$LFxP6s9xLCwvBkqnNdn7hetCSt.E9lL1S1dc4mUFfbND2PZAix6IO', '2025-05-11 09:25:25', '2025-05-11 09:26:26'),
+(7, '31241241241', 'Faruk', 'Alioğlu', '2003-04-21', 'Fırat Üniversitesi', 'Elektirik Elektronik Mühendisliği', '5340889327', 'farukali@gmail.com', 'active', '$2y$12$yQfiVioYLso3jwqBAFVpJezYgKVooCRnFRuo0.uofkV1agBNm8r.a', '2025-05-20 09:41:52', '2025-05-20 09:41:52');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `student_entries`
+--
+
+CREATE TABLE `student_entries` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `student_id` bigint(20) UNSIGNED NOT NULL,
+  `room_id` bigint(20) UNSIGNED NOT NULL,
+  `entry_time` datetime NOT NULL,
+  `exit_time` datetime DEFAULT NULL,
+  `entry_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'normal',
+  `exit_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'inside',
+  `notes` text COLLATE utf8mb4_unicode_ci,
+  `recorded_by` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `student_permissions`
+--
+
+CREATE TABLE `student_permissions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `student_id` bigint(20) UNSIGNED NOT NULL,
+  `permission_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `reason` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `admin_notes` text COLLATE utf8mb4_unicode_ci,
+  `approved_by` bigint(20) UNSIGNED DEFAULT NULL,
+  `approved_at` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `student_room`
+--
+
+CREATE TABLE `student_room` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `student_id` bigint(20) UNSIGNED NOT NULL,
+  `room_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `student_room`
+--
+
+INSERT INTO `student_room` (`id`, `student_id`, `room_id`, `created_at`, `updated_at`) VALUES
+(1, 2, 1, NULL, NULL),
+(2, 1, 1, NULL, NULL),
+(3, 3, 1, NULL, NULL),
+(10, 5, 8, '2025-05-11 09:26:57', '2025-05-11 09:26:57'),
+(20, 6, 7, '2025-05-12 08:41:45', '2025-05-12 08:41:45'),
+(21, 7, 1, '2025-05-20 09:41:52', '2025-05-20 09:41:52'),
+(22, 4, 1, '2025-05-20 09:44:09', '2025-05-20 09:44:09');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `transfers`
+--
+
+CREATE TABLE `transfers` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `student_id` bigint(20) UNSIGNED NOT NULL,
+  `from_room_id` bigint(20) UNSIGNED NOT NULL,
+  `to_room_id` bigint(20) UNSIGNED NOT NULL,
+  `transfer_date` datetime NOT NULL,
+  `reason` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('pending','completed','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `transfers`
+--
+
+INSERT INTO `transfers` (`id`, `student_id`, `from_room_id`, `to_room_id`, `transfer_date`, `reason`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 8, '2025-05-09 13:53:08', '', 'completed', '2025-05-09 10:53:08', '2025-05-09 10:53:08', NULL),
+(6, 6, 7, 2, '2025-05-12 11:41:38', '', 'completed', '2025-05-12 08:41:38', '2025-05-12 08:41:38', NULL),
+(7, 6, 2, 7, '2025-05-12 11:41:45', '', 'completed', '2025-05-12 08:41:45', '2025-05-12 08:41:45', NULL),
+(8, 4, 4, 1, '2025-05-20 12:44:09', '', 'completed', '2025-05-20 09:44:09', '2025-05-20 09:44:09', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `users`
+--
+
+CREATE TABLE `users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Tablo döküm verisi `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `avatar`, `phone`, `email_verified_at`, `password`, `role`, `status`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Admin', 'admin@admin', '681e1f9d59cd1.PNG', NULL, NULL, '$2y$12$YkEfxmabd2hyh6x6/DF7a..q4uCT6cw/3pmhjxIbrpMKJBbitI7UC', 'user', 'active', 'DISggl7tFBcEAV4muppb1mD4EVcioJX7qNubtdGeFm6K1RgjffOpPmdJgWrk', '2025-05-09 11:20:30', '2025-05-09 12:30:37', NULL),
+(2, 'Manager', 'manager@admin', NULL, NULL, NULL, '$2y$12$Az7pz6KG92zDCNa69FBOYuOqSxmSui.LTUixteYwoK9AR1Clc6Qc2', 'user', 'active', NULL, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL),
+(3, 'User', 'user@admin', NULL, NULL, NULL, '$2y$12$JDDjMvC5LIIeO0Y2AXAxVOrI.UhqvejWeFo.iSciaaX.fj.YFF7xa', 'user', 'active', NULL, '2025-05-09 11:20:30', '2025-05-09 11:20:30', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `user_roles`
+--
+
+CREATE TABLE `user_roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dökümü yapılmış tablolar için indeksler
+--
+
+--
+-- Tablo için indeksler `beverages`
+--
+ALTER TABLE `beverages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Tablo için indeksler `blocks`
+--
+ALTER TABLE `blocks`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Tablo için indeksler `cache`
+--
+ALTER TABLE `cache`
+  ADD PRIMARY KEY (`key`);
+
+--
+-- Tablo için indeksler `cache_locks`
+--
+ALTER TABLE `cache_locks`
+  ADD PRIMARY KEY (`key`);
+
+--
+-- Tablo için indeksler `daily_menus`
+--
+ALTER TABLE `daily_menus`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `daily_menus_soup_id_foreign` (`soup_id`),
+  ADD KEY `daily_menus_main_dish_id_foreign` (`main_dish_id`),
+  ADD KEY `daily_menus_side_dish_id_foreign` (`side_dish_id`),
+  ADD KEY `daily_menus_dessert_id_foreign` (`dessert_id`),
+  ADD KEY `daily_menus_salad_id_foreign` (`salad_id`),
+  ADD KEY `daily_menus_beverage_id_foreign` (`beverage_id`),
+  ADD KEY `daily_menus_created_by_foreign` (`created_by`);
+
+--
+-- Tablo için indeksler `desserts`
+--
+ALTER TABLE `desserts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Tablo için indeksler `entry_rules`
+--
+ALTER TABLE `entry_rules`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `entry_rules_created_by_foreign` (`created_by`);
+
+--
+-- Tablo için indeksler `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Tablo için indeksler `jobs`
+--
+ALTER TABLE `jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jobs_queue_index` (`queue`);
+
+--
+-- Tablo için indeksler `job_batches`
+--
+ALTER TABLE `job_batches`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Tablo için indeksler `main_dishes`
+--
+ALTER TABLE `main_dishes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Tablo için indeksler `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Tablo için indeksler `password_reset_tokens`
+--
+ALTER TABLE `password_reset_tokens`
+  ADD PRIMARY KEY (`email`);
+
+--
+-- Tablo için indeksler `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `payments_payment_type_id_foreign` (`payment_type_id`),
+  ADD KEY `payments_payment_item_id_foreign` (`payment_item_id`),
+  ADD KEY `payments_payer_type_payer_id_index` (`payer_type`,`payer_id`);
+
+--
+-- Tablo için indeksler `payment_items`
+--
+ALTER TABLE `payment_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `payment_items_payment_type_id_foreign` (`payment_type_id`);
+
+--
+-- Tablo için indeksler `payment_receipts`
+--
+ALTER TABLE `payment_receipts`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `payment_receipts_receipt_number_unique` (`receipt_number`),
+  ADD KEY `payment_receipts_payment_id_foreign` (`payment_id`),
+  ADD KEY `payment_receipts_verified_by_foreign` (`verified_by`);
+
+--
+-- Tablo için indeksler `payment_types`
+--
+ALTER TABLE `payment_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Tablo için indeksler `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `permissions_name_unique` (`name`);
+
+--
+-- Tablo için indeksler `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+
+--
+-- Tablo için indeksler `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `roles_name_unique` (`name`);
+
+--
+-- Tablo için indeksler `role_permissions`
+--
+ALTER TABLE `role_permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `role_permissions_role_id_permission_id_unique` (`role_id`,`permission_id`),
+  ADD KEY `role_permissions_permission_id_foreign` (`permission_id`);
+
+--
+-- Tablo için indeksler `rooms`
+--
+ALTER TABLE `rooms`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `rooms_block_id_foreign` (`block_id`);
+
+--
+-- Tablo için indeksler `salads`
+--
+ALTER TABLE `salads`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Tablo için indeksler `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sessions_user_id_index` (`user_id`),
+  ADD KEY `sessions_last_activity_index` (`last_activity`);
+
+--
+-- Tablo için indeksler `side_dishes`
+--
+ALTER TABLE `side_dishes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Tablo için indeksler `soups`
+--
+ALTER TABLE `soups`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Tablo için indeksler `staff`
+--
+ALTER TABLE `staff`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `staff_email_unique` (`email`),
+  ADD KEY `staff_role_id_foreign` (`role_id`);
+
+--
+-- Tablo için indeksler `staff_attendances`
+--
+ALTER TABLE `staff_attendances`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `staff_attendances_staff_id_foreign` (`staff_id`);
+
+--
+-- Tablo için indeksler `staff_documents`
+--
+ALTER TABLE `staff_documents`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `staff_documents_staff_id_foreign` (`staff_id`);
+
+--
+-- Tablo için indeksler `staff_qualifications`
+--
+ALTER TABLE `staff_qualifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `staff_qualifications_staff_id_foreign` (`staff_id`);
+
+--
+-- Tablo için indeksler `staff_roles`
+--
+ALTER TABLE `staff_roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `staff_roles_slug_unique` (`slug`);
+
+--
+-- Tablo için indeksler `staff_schedules`
+--
+ALTER TABLE `staff_schedules`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `staff_schedules_staff_id_foreign` (`staff_id`);
+
+--
+-- Tablo için indeksler `students`
+--
+ALTER TABLE `students`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `students_tc_no_unique` (`tc_no`),
+  ADD UNIQUE KEY `students_email_unique` (`email`);
+
+--
+-- Tablo için indeksler `student_entries`
+--
+ALTER TABLE `student_entries`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `student_entries_student_id_foreign` (`student_id`),
+  ADD KEY `student_entries_room_id_foreign` (`room_id`),
+  ADD KEY `student_entries_recorded_by_foreign` (`recorded_by`);
+
+--
+-- Tablo için indeksler `student_permissions`
+--
+ALTER TABLE `student_permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `student_permissions_student_id_foreign` (`student_id`),
+  ADD KEY `student_permissions_approved_by_foreign` (`approved_by`);
+
+--
+-- Tablo için indeksler `student_room`
+--
+ALTER TABLE `student_room`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `student_room_student_id_room_id_unique` (`student_id`,`room_id`),
+  ADD KEY `student_room_room_id_foreign` (`room_id`);
+
+--
+-- Tablo için indeksler `transfers`
+--
+ALTER TABLE `transfers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `transfers_student_id_foreign` (`student_id`),
+  ADD KEY `transfers_from_room_id_foreign` (`from_room_id`),
+  ADD KEY `transfers_to_room_id_foreign` (`to_room_id`);
+
+--
+-- Tablo için indeksler `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- Tablo için indeksler `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_roles_user_id_role_id_unique` (`user_id`,`role_id`),
+  ADD KEY `user_roles_role_id_foreign` (`role_id`);
+
+--
+-- Dökümü yapılmış tablolar için AUTO_INCREMENT değeri
+--
+
+--
+-- Tablo için AUTO_INCREMENT değeri `beverages`
+--
+ALTER TABLE `beverages`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `blocks`
+--
+ALTER TABLE `blocks`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `daily_menus`
+--
+ALTER TABLE `daily_menus`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `desserts`
+--
+ALTER TABLE `desserts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `entry_rules`
+--
+ALTER TABLE `entry_rules`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `jobs`
+--
+ALTER TABLE `jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `main_dishes`
+--
+ALTER TABLE `main_dishes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `payment_items`
+--
+ALTER TABLE `payment_items`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `payment_receipts`
+--
+ALTER TABLE `payment_receipts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `payment_types`
+--
+ALTER TABLE `payment_types`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `role_permissions`
+--
+ALTER TABLE `role_permissions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `rooms`
+--
+ALTER TABLE `rooms`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `salads`
+--
+ALTER TABLE `salads`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `side_dishes`
+--
+ALTER TABLE `side_dishes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `soups`
+--
+ALTER TABLE `soups`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `staff`
+--
+ALTER TABLE `staff`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `staff_attendances`
+--
+ALTER TABLE `staff_attendances`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `staff_documents`
+--
+ALTER TABLE `staff_documents`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `staff_qualifications`
+--
+ALTER TABLE `staff_qualifications`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `staff_roles`
+--
+ALTER TABLE `staff_roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `staff_schedules`
+--
+ALTER TABLE `staff_schedules`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `students`
+--
+ALTER TABLE `students`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `student_entries`
+--
+ALTER TABLE `student_entries`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `student_permissions`
+--
+ALTER TABLE `student_permissions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `student_room`
+--
+ALTER TABLE `student_room`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `transfers`
+--
+ALTER TABLE `transfers`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `user_roles`
+--
+ALTER TABLE `user_roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Dökümü yapılmış tablolar için kısıtlamalar
+--
+
+--
+-- Tablo kısıtlamaları `daily_menus`
+--
+ALTER TABLE `daily_menus`
+  ADD CONSTRAINT `daily_menus_beverage_id_foreign` FOREIGN KEY (`beverage_id`) REFERENCES `beverages` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `daily_menus_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `daily_menus_dessert_id_foreign` FOREIGN KEY (`dessert_id`) REFERENCES `desserts` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `daily_menus_main_dish_id_foreign` FOREIGN KEY (`main_dish_id`) REFERENCES `main_dishes` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `daily_menus_salad_id_foreign` FOREIGN KEY (`salad_id`) REFERENCES `salads` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `daily_menus_side_dish_id_foreign` FOREIGN KEY (`side_dish_id`) REFERENCES `side_dishes` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `daily_menus_soup_id_foreign` FOREIGN KEY (`soup_id`) REFERENCES `soups` (`id`) ON DELETE SET NULL;
+
+--
+-- Tablo kısıtlamaları `entry_rules`
+--
+ALTER TABLE `entry_rules`
+  ADD CONSTRAINT `entry_rules_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Tablo kısıtlamaları `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `payments_payment_item_id_foreign` FOREIGN KEY (`payment_item_id`) REFERENCES `payment_items` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `payments_payment_type_id_foreign` FOREIGN KEY (`payment_type_id`) REFERENCES `payment_types` (`id`) ON DELETE CASCADE;
+
+--
+-- Tablo kısıtlamaları `payment_items`
+--
+ALTER TABLE `payment_items`
+  ADD CONSTRAINT `payment_items_payment_type_id_foreign` FOREIGN KEY (`payment_type_id`) REFERENCES `payment_types` (`id`) ON DELETE CASCADE;
+
+--
+-- Tablo kısıtlamaları `payment_receipts`
+--
+ALTER TABLE `payment_receipts`
+  ADD CONSTRAINT `payment_receipts_payment_id_foreign` FOREIGN KEY (`payment_id`) REFERENCES `payments` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `payment_receipts_verified_by_foreign` FOREIGN KEY (`verified_by`) REFERENCES `users` (`id`);
+
+--
+-- Tablo kısıtlamaları `role_permissions`
+--
+ALTER TABLE `role_permissions`
+  ADD CONSTRAINT `role_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `role_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Tablo kısıtlamaları `rooms`
+--
+ALTER TABLE `rooms`
+  ADD CONSTRAINT `rooms_block_id_foreign` FOREIGN KEY (`block_id`) REFERENCES `blocks` (`id`) ON DELETE CASCADE;
+
+--
+-- Tablo kısıtlamaları `staff`
+--
+ALTER TABLE `staff`
+  ADD CONSTRAINT `staff_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `staff_roles` (`id`);
+
+--
+-- Tablo kısıtlamaları `staff_attendances`
+--
+ALTER TABLE `staff_attendances`
+  ADD CONSTRAINT `staff_attendances_staff_id_foreign` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`) ON DELETE CASCADE;
+
+--
+-- Tablo kısıtlamaları `staff_documents`
+--
+ALTER TABLE `staff_documents`
+  ADD CONSTRAINT `staff_documents_staff_id_foreign` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`) ON DELETE CASCADE;
+
+--
+-- Tablo kısıtlamaları `staff_qualifications`
+--
+ALTER TABLE `staff_qualifications`
+  ADD CONSTRAINT `staff_qualifications_staff_id_foreign` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`) ON DELETE CASCADE;
+
+--
+-- Tablo kısıtlamaları `staff_schedules`
+--
+ALTER TABLE `staff_schedules`
+  ADD CONSTRAINT `staff_schedules_staff_id_foreign` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`) ON DELETE CASCADE;
+
+--
+-- Tablo kısıtlamaları `student_entries`
+--
+ALTER TABLE `student_entries`
+  ADD CONSTRAINT `student_entries_recorded_by_foreign` FOREIGN KEY (`recorded_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `student_entries_room_id_foreign` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `student_entries_student_id_foreign` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE;
+
+--
+-- Tablo kısıtlamaları `student_permissions`
+--
+ALTER TABLE `student_permissions`
+  ADD CONSTRAINT `student_permissions_approved_by_foreign` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `student_permissions_student_id_foreign` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE;
+
+--
+-- Tablo kısıtlamaları `student_room`
+--
+ALTER TABLE `student_room`
+  ADD CONSTRAINT `student_room_room_id_foreign` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `student_room_student_id_foreign` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE;
+
+--
+-- Tablo kısıtlamaları `transfers`
+--
+ALTER TABLE `transfers`
+  ADD CONSTRAINT `transfers_from_room_id_foreign` FOREIGN KEY (`from_room_id`) REFERENCES `rooms` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `transfers_student_id_foreign` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `transfers_to_room_id_foreign` FOREIGN KEY (`to_room_id`) REFERENCES `rooms` (`id`) ON DELETE CASCADE;
+
+--
+-- Tablo kısıtlamaları `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD CONSTRAINT `user_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_roles_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
