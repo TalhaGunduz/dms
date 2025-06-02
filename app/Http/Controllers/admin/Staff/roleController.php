@@ -63,14 +63,25 @@ class RoleController extends Controller
 
     public function destroy(StaffRole $role)
     {
-        if ($role->staff()->exists()) {
-            return back()->with('error', 'Bu role sahip personel bulunduğu için silinemez.');
+        try {
+            if ($role->staff()->exists()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Bu role sahip personel bulunduğu için silinemez.'
+                ]);
+            }
+
+            $role->forceDelete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Rol başarıyla silindi.'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Rol silinirken bir hata oluştu: ' . $e->getMessage()
+            ]);
         }
-
-        $role->delete();
-
-        return redirect()
-            ->route('admin.staff.roles.index')
-            ->with('success', 'Rol başarıyla silindi.');
     }
 }

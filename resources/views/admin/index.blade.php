@@ -180,10 +180,12 @@
                                         <span class="text-dark fw-bold text-hover-primary d-block fs-6">{{ $payment->amount }} ₺</span>
                                     </td>
                                     <td>
-                                        @if($payment->status == 'paid')
+                                        @if($payment->status == 'approved')
                                             <span class="badge badge-light-success">Ödendi</span>
-                                        @else
+                                        @elseif($payment->status == 'pending')
                                             <span class="badge badge-light-warning">Bekliyor</span>
+                                        @else
+                                            <span class="badge badge-light-danger">İptal</span>
                                         @endif
                                     </td>
                                     <td class="text-end pe-4">

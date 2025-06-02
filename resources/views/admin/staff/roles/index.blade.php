@@ -20,7 +20,6 @@
                     <th>Rol Adı</th>
                     <th>Açıklama</th>
                     <th>Durum</th>
-                    <th>İşlemler</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,18 +32,6 @@
                         <span class="badge badge-{{ $role->status === 'active' ? 'light-success' : 'light-danger' }}">
                             {{ $role->status === 'active' ? 'Aktif' : 'Pasif' }}
                         </span>
-                    </td>
-                    <td>
-                        <a href="{{ route('admin.staff.roles.edit', $role) }}" class="btn btn-sm btn-primary me-1">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <form action="{{ route('admin.staff.roles.destroy', $role) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bu rolü silmek istediğinizden emin misiniz?')">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
                     </td>
                 </tr>
                 @endforeach
@@ -60,7 +47,7 @@
         $('#kt_roles_table').DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/tr.json',
-            },
+            }
         });
     });
 </script>

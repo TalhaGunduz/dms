@@ -37,7 +37,7 @@ Route::get('/', function () {
 // Authentication routes
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login'])->name('login.post');
-Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 // Home route (after login)
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -151,7 +151,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/store', [StaffRoleController::class, 'store'])->name('store');
                 Route::get('/edit/{id}', [StaffRoleController::class, 'edit'])->name('edit');
                 Route::post('/update/{id}', [StaffRoleController::class, 'update'])->name('update');
-                Route::get('/destroy/{id}', [StaffRoleController::class, 'destroy'])->name('destroy');
+                Route::delete('/destroy/{id}', [StaffRoleController::class, 'destroy'])->name('destroy');
                 Route::get('/data', [StaffRoleController::class, 'data'])->name('data');
             });
 

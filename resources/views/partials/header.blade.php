@@ -96,7 +96,7 @@ License: For each use you must have a valid license purchased only from above li
                 data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize"
                 data-kt-sticky-offset="{default: '200px', lg: '0'}" data-kt-sticky-animation="false">
                 <!--begin::Header container-->
-                <div class="app-container container-fluid d-flex align-items-stretch justify-content-between"
+                <div class="app-container container-fluid d-flex align-items-center justify-content-between"
                     id="kt_app_header_container">
                     <!--begin::Sidebar mobile toggle-->
                     <div class="d-flex align-items-center d-lg-none ms-n3 me-1 me-md-2" title="Show sidebar menu">
@@ -110,50 +110,25 @@ License: For each use you must have a valid license purchased only from above li
                     </div>
                     <!--end::Sidebar mobile toggle-->
                     <!--begin::Mobile logo-->
-                    <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 justify-content-center">
-                        <a href="/" class="d-lg-none d-flex align-items-center">
+                    <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 d-lg-none justify-content-center">
+                        <a href="/" class="d-flex align-items-center">
                             <img alt="Logo" src="{{ asset('assets/media/dms-logo.png') }}" class="h-30px"/>
                         </a>
                     </div>
                     <!--end::Mobile logo-->
-                    <!--begin::Header wrapper-->
-                    <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1"
-                        id="kt_app_header_wrapper">
-                        <!--begin::Recent Activity-->
-                        <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-5">
-                            <div class="d-flex align-items-center py-2 py-lg-3 w-100">
-                                <div class="recent-activity d-flex align-items-center">
-                                    <div class="activity-item me-3">
-                                        <a href="{{ route('admin.staff.documents.index') }}" class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px" data-bs-toggle="tooltip" title="Recent Documents">
-                                            <i class="ki-duotone ki-document fs-2">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                            </i>
-                                        </a>
-                                    </div>
-                                    <div class="activity-item me-3">
-                                        <a href="{{ route('admin.notes') }}" class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px" data-bs-toggle="tooltip" title="Quick Notes">
-                                            <i class="ki-duotone ki-notepad fs-2">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                            </i>
-                                        </a>
-                                    </div>
-                                    <div class="activity-item">
-                                        <a href="{{ route('admin.tasks') }}" class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px" data-bs-toggle="tooltip" title="Task Manager">
-                                            <i class="ki-duotone ki-calendar-tick fs-2">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                            </i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+
+                    <!--begin::Header wrapper for main content and right items-->
+                    <div class="d-flex align-items-stretch justify-content-between flex-grow-1">
+                        <!-- Placeholder for left-aligned content like welcome message/buttons -->
+                        <div class="d-flex align-items-center">
+                            @auth
+                                <span class="text-gray-800 fw-bold fs-4 me-4">Yurt Yönetim Sistemi Paneli</span>
+                            @endauth
+                            {{-- Add any necessary placeholder content or structure here if needed for alignment --}}
                         </div>
-                        <!--end::Recent Activity-->
-                        
-                        <!--begin::Navbar-->
-                        <div class="app-navbar flex-shrink-0">
+
+                        <!--begin::Navbar - Right aligned items -->
+                        <div class="app-navbar d-flex align-items-center">
                             <!--begin::News/Updates-->
                             <div class="app-navbar-item ms-1 ms-md-4">
                                 <!--begin::Menu wrapper-->
@@ -186,23 +161,51 @@ License: For each use you must have a valid license purchased only from above li
                                             <div class="scroll-y mh-325px pe-5">
                                                 <div class="d-flex flex-stack py-4">
                                                     <div class="d-flex align-items-center me-2">
-                                                        <span class="text-muted me-2">15m ago</span>
-                                                        <a href="#" class="text-gray-800 text-hover-primary fw-semibold">Sistem Güncellemesi Tamamlandı</a>
+                                                        <span class="text-muted me-2">01.01.2024</span>
+                                                        <span class="text-gray-800 fw-semibold">Version 1.0.2 Yayınlandı</span>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex flex-stack py-4">
                                                     <div class="d-flex align-items-center me-2">
-                                                        <span class="text-muted me-2">1h ago</span>
-                                                        <a href="#" class="text-gray-800 text-hover-primary fw-semibold">Yeni Belge Şablonları Eklendi</a>
+                                                        <span class="text-muted me-2">15.12.2023</span>
+                                                        <span class="text-gray-800 fw-semibold">Yeni Kullanıcı Arayüzü Güncellemeleri</span>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex flex-stack py-4">
                                                     <div class="d-flex align-items-center me-2">
-                                                        <span class="text-muted me-2">2d ago</span>
-                                                        <a href="#" class="text-gray-800 text-hover-primary fw-semibold">Performans İyileştirmeleri Yapıldı</a>
+                                                        <span class="text-muted me-2">01.12.2023</span>
+                                                        <span class="text-gray-800 fw-semibold">Performans İyileştirmeleri ve Hata Gidermeler</span>
                                                     </div>
                                                 </div>
-                                                <!-- Add more news items here -->
+                                                <div class="d-flex flex-stack py-4">
+                                                    <div class="d-flex align-items-center me-2">
+                                                        <span class="text-muted me-2">20.11.2023</span>
+                                                        <span class="text-gray-800 fw-semibold">Yeni Raporlama Özellikleri Eklendi</span>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-stack py-4">
+                                                    <div class="d-flex align-items-center me-2">
+                                                        <span class="text-muted me-2">10.11.2023</span>
+                                                        <span class="text-gray-800 fw-semibold">Doküman Yönetim Sistemi Güncellendi</span>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-stack py-4">
+                                                    <div class="d-flex align-items-center me-2">
+                                                        <span class="text-muted me-2">25.10.2023</span>
+                                                        <span class="text-gray-800 fw-semibold">Güvenlik Güncellemeleri Yapıldı</span>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-stack py-4">
+                                                    <div class="d-flex align-items-center me-2">
+                                                        <span class="text-muted me-2">15.10.2023</span>
+                                                        <span class="text-gray-800 fw-semibold">Yeni Kullanıcı Kılavuzu Yayınlandı</span>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-stack py-4">
+                                                    <div class="d-flex align-items-center me-2">
+                                                        <span class="text-muted">Güncellemeler yazılımcılar tarafından eklenmektedir.</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -211,38 +214,6 @@ License: For each use you must have a valid license purchased only from above li
                                 <!--end::Menu-->
                             </div>
                             <!--end::News/Updates-->
-
-                            <!--begin::Notifications-->
-                            <div class="app-navbar-item ms-1 ms-md-4">
-                                <!--begin::Menu wrapper-->
-                                <div class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px"
-                                    data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
-                                    data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end"
-                                    id="kt_menu_item_wow">
-                                    <i class="ki-duotone ki-notification-status fs-2">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                        <span class="path3"></span>
-                                        <span class="path4"></span>
-                                    </i>
-                                </div>
-                                <!--begin::Menu-->
-                                <div class="menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-375px"
-                                    data-kt-menu="true" id="kt_menu_notifications">
-                                    <!--begin::Heading-->
-                                    <div class="d-flex flex-column bgi-no-repeat rounded-top"
-                                        style="background-image:url('assets/media/misc/menu-header-bg.jpg')">
-                                        <!--begin::Title-->
-                                        <h3 class="text-white fw-semibold px-9 mt-10 mb-6">Notifications
-                                            <span class="fs-8 opacity-75 ps-3">24 reports</span>
-                                        </h3>
-                                        <!--end::Title-->
-                                    </div>
-                                    <!--end::Heading-->
-                                </div>
-                                <!--end::Menu-->
-                            </div>
-                            <!--end::Notifications-->
 
                             <!--begin::User menu-->
                             <div class="app-navbar-item ms-1 ms-md-4" id="kt_header_user_menu_toggle">
@@ -306,7 +277,7 @@ License: For each use you must have a valid license purchased only from above li
                         </div>
                         <!--end::Navbar-->
                     </div>
-                    <!--end::Header wrapper-->
+                    <!--end::Header wrapper for main content and right items-->
                 </div>
                 <!--end::Header container-->
             </div>

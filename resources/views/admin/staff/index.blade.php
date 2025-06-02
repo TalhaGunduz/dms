@@ -142,7 +142,6 @@
                         <!--begin::Table row-->
                         <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                             <th class="min-w-125px">Personel</th>
-                            <th class="min-w-125px">Departman</th>
                             <th class="min-w-125px">Pozisyon</th>
                             <th class="min-w-125px">İşe Başlama</th>
                             <th class="min-w-125px">Durum</th>
@@ -168,7 +167,6 @@
                                 </div>
                                 <!--begin::User details-->
                             </td>
-                            <td>{{ $person->department }}</td>
                             <td>{{ $person->position }}</td>
                             <td>{{ $person->hire_date->format('d.m.Y') }}</td>
                             <td>
@@ -222,7 +220,6 @@
                         `;
                     }
                 },
-                { data: 'department' },
                 { data: 'position' },
                 { 
                     data: 'hire_date',

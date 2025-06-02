@@ -27,23 +27,6 @@
             </div>
 
             <div class="mb-3">
-                <label for="permissions" class="form-label">İzinler</label>
-                <select class="form-select @error('permissions') is-invalid @enderror" id="permissions" name="permissions[]" multiple>
-                    <option value="view_staff">Personel Görüntüleme</option>
-                    <option value="create_staff">Personel Ekleme</option>
-                    <option value="edit_staff">Personel Düzenleme</option>
-                    <option value="delete_staff">Personel Silme</option>
-                    <option value="view_roles">Rol Görüntüleme</option>
-                    <option value="create_roles">Rol Ekleme</option>
-                    <option value="edit_roles">Rol Düzenleme</option>
-                    <option value="delete_roles">Rol Silme</option>
-                </select>
-                @error('permissions')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="mb-3">
                 <label for="status" class="form-label">Durum</label>
                 <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
                     <option value="active" {{ old('status') === 'active' ? 'selected' : '' }}>Aktif</option>

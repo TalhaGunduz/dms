@@ -8,9 +8,8 @@
         <h3 class="card-title">Rol Düzenle</h3>
     </div>
     <div class="card-body">
-        <form id="kt_role_form" action="{{ route('admin.staff.roles.update', $role) }}" method="POST">
+        <form id="kt_role_form" action="{{ route('admin.staff.roles.update', ['id' => $role->id]) }}" method="POST">
             @csrf
-            @method('PUT')
             <div class="mb-3">
                 <label for="name" class="form-label">Rol Adı</label>
                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $role->name) }}" required>
